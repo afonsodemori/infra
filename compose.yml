@@ -10,3 +10,11 @@ services:
       - "80:80"
       - "443:443"
     restart: unless-stopped
+
+  sophia:
+    image: registry.gitlab.com/afonsodemori/sophia-web:latest
+    environment:
+      APP_ENV: prod
+    depends_on:
+      - nginx
+    restart: unless-stopped
