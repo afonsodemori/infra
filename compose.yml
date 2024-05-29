@@ -15,6 +15,7 @@ services:
     image: registry.gitlab.com/afonsodemori/sophia-web:latest
     environment:
       APP_ENV: prod
+      DATABASE_URL: ${SOPHIA_DATABASE_DSN:?}
     depends_on:
       - nginx
     restart: unless-stopped
