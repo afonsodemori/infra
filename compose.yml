@@ -22,6 +22,19 @@ services:
       - "3306:3306"
     restart: unless-stopped
 
+  phpmyadmin:
+    image: phpmyadmin:5
+    environment:
+      HIDE_PHP_VERSION: 1
+      PMA_ARBITRARY: 1
+      PMA_HOSTS: ${PHP_MY_ADMIN_HOSTS:?}
+      UPLOAD_LIMIT: 104857600
+      PMA_ABSOLUTE_URI: https://phpmyadmin
+    hostname: phpmyadmin
+    depends_on:
+      - nginx
+    restart: unless-stopped
+
   sophia:
     image: registry.gitlab.com/afonsodemori/sophia-web:latest
     environment:
