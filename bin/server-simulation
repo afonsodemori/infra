@@ -2,7 +2,7 @@
 
 source .env
 
-read -r "Mount the current directory inside the container? (yes/no) " response
+read -rp "Mount the current directory inside the container? (yes/no) " response
 
 infra_dir="${INFRA_DIR:?}"
 data_dir="${DATA_DIR:?}"
