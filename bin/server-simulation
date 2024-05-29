@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source .env
+
+read -r "Mount the current directory inside the container? (yes/no) " response
+
+infra_dir="${INFRA_DIR:?}"
+data_dir="${DATA_DIR:?}"
+
+mount=""
+if [[ $response == "yes" ]]; then
+    mount="--volume .:$infra_dir:ro --workdir=$infra_dir"
+fi
+
+# shellcheck disable=SC2086
+docker run \
+    --rm \
+    --name=server-simulation \
+    --hostname=server-simulation \
+    --interactive \
+    --tty \
+    --privileged \
+    $mount \
+    --volume "$data_dir:$data_dir" \
+    --volume "/var/run/docker.sock:/var/run/docker.sock" \
+    debian:12
