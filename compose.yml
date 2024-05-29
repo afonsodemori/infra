@@ -11,6 +11,17 @@ services:
       - "443:443"
     restart: unless-stopped
 
+  mariadb:
+    image: mariadb:11
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?}
+    command: [ "mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci" ]
+    volumes:
+      - ${DATA_DIR:?}/mariadb:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+
   sophia:
     image: registry.gitlab.com/afonsodemori/sophia-web:latest
     environment:
@@ -30,4 +41,5 @@ services:
       DB_PASS: ${METEOSAUCANA_DB_PASS:?}
     depends_on:
       - nginx
+      - mariadb
     restart: unless-stopped
