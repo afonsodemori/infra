@@ -19,3 +19,15 @@ services:
     depends_on:
       - nginx
     restart: unless-stopped
+
+  meteosaucana:
+    image: registry.gitlab.com/afonsodemori/meteosaucana:latest
+    environment:
+      DB_HOST: ${METEOSAUCANA_DB_HOST:?}
+      DB_PORT: ${METEOSAUCANA_DB_PORT:?}
+      DB_NAME: ${METEOSAUCANA_DB_NAME:?}
+      DB_USER: ${METEOSAUCANA_DB_USER:?}
+      DB_PASS: ${METEOSAUCANA_DB_PASS:?}
+    depends_on:
+      - nginx
+    restart: unless-stopped
