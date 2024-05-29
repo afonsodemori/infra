@@ -22,6 +22,19 @@ Once the repository is cloned and `.env` is correctly set, run `bin/install` to 
 
 Each of the previous commands can also be run independently and as much as needed.
 
+## Copying data from another server
+
+There's a helper to copy the data from another production server, defined in `.env`.
+
+To do the copy, run `make copy/all`. This command will execute the following commands in sequence:
+
+```bash
+make copy/letsencrypt
+make copy/mariadb
+make copy/mysql
+make copy/sonar
+```
+
 ## Simulation server
 
 To minimally simulate the production server, there is a script at `bin/server-simulation` that runs a debian container with privileges to run docker inside. The instructions of this README can be executed inside that container as if it was another server. It's an approximation, since it's not a VPS, but good enough for testing :-)
