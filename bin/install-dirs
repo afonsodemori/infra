@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+source .env
+
+data_dir="${DATA_DIR:?}"
+
+echo "Creating directories:"
+mkdir -pv "$data_dir/letsencrypt"
+mkdir -pv "$data_dir/mariadb"
+mkdir -pv "$data_dir/mysql"
+mkdir -pv "$data_dir/sonar" # && chmod -R 775 "$data_dir/sonar"
+
+echo "Done."

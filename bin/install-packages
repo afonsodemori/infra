@@ -38,3 +38,5 @@ if ! command -v docker; then
 
     apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 fi
+
+echo "Done."

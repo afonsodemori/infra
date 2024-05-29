@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+source .env
+
+private_key="$HOME/.ssh/id_ed25519"
+
+if [[ ! -f "$private_key" ]]; then
+    remote_server="root@${SERVER_HOST:?}"
+
+    public_key="$HOME/.ssh/id_ed25519.pub"
+    ssh-keygen -t ed25519 -f "$private_key" -N ""
+
+    if [[ -f "$public_key" ]]; then
+        echo "Your new public key is:"
+        public_key_string=$(cat "$public_key")
+        echo "$public_key_string"
+
+        read -r "Do you want to authorize it on the remote server? (yes/no) " response
+
+        if [[ "$response" == "yes" ]]; then
+            # shellcheck disable=SC2029
+            ssh "$remote_server" "echo $public_key_string >> /root/.ssh/authorized_keys"
+        fi
+    else
+        echo "[X] Failed to generate public key."
+    fi
+fi
