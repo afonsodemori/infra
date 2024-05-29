@@ -9,6 +9,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - meteosaucana
+      - phpmyadmin
+      - sophia
     restart: unless-stopped
 
   mariadb:
@@ -31,8 +35,6 @@ services:
       UPLOAD_LIMIT: 104857600
       PMA_ABSOLUTE_URI: https://phpmyadmin
     hostname: phpmyadmin
-    depends_on:
-      - nginx
     restart: unless-stopped
 
   sophia:
@@ -40,8 +42,6 @@ services:
     environment:
       APP_ENV: prod
       DATABASE_URL: ${SOPHIA_DATABASE_DSN:?}
-    depends_on:
-      - nginx
     restart: unless-stopped
 
   meteosaucana:
@@ -53,6 +53,5 @@ services:
       DB_USER: ${METEOSAUCANA_DB_USER:?}
       DB_PASS: ${METEOSAUCANA_DB_PASS:?}
     depends_on:
-      - nginx
       - mariadb
     restart: unless-stopped
