@@ -93,3 +93,9 @@ services:
     depends_on:
       - mariadb
     restart: on-failure
+
+networks:
+  custom_network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
