@@ -14,6 +14,8 @@ services:
       - phpmyadmin
       - sophia
       - spring-playground
+    networks:
+      - infra_network
     restart: on-failure
 
   letsencrypt: # to be run via bin/letsencrypt
@@ -38,6 +40,8 @@ services:
       - ${DATA_DIR:?}/mariadb:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - infra_network
     restart: on-failure
 
   phpmyadmin:
@@ -49,6 +53,8 @@ services:
       UPLOAD_LIMIT: 104857600
       PMA_ABSOLUTE_URI: https://phpmyadmin
     hostname: phpmyadmin
+    networks:
+      - infra_network
     restart: on-failure
 
   sonar:
@@ -60,6 +66,8 @@ services:
       - ${DATA_DIR:?}/sonar/data:/opt/sonarqube/data
       - ${DATA_DIR:?}/sonar/logs:/opt/sonarqube/logs
       - ${DATA_DIR:?}/sonar/extensions:/opt/sonarqube/extensions
+    networks:
+      - infra_network
     restart: on-failure
 
   spring-playground:
@@ -73,6 +81,8 @@ services:
       DB_PASS: ${SPRING_PLAYGROUND_DB_PASS:?}
     depends_on:
       - mariadb
+    networks:
+      - infra_network
     restart: on-failure
 
   sophia:
@@ -80,6 +90,8 @@ services:
     environment:
       APP_ENV: prod
       DATABASE_URL: ${SOPHIA_DATABASE_DSN:?}
+    networks:
+      - infra_network
     restart: on-failure
 
   meteosaucana:
@@ -92,10 +104,12 @@ services:
       DB_PASS: ${METEOSAUCANA_DB_PASS:?}
     depends_on:
       - mariadb
+    networks:
+      - infra_network
     restart: on-failure
 
 networks:
-  custom_network:
+  infra_network:
     ipam:
       config:
         - subnet: 172.20.0.0/16
