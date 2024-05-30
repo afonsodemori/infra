@@ -41,6 +41,17 @@ services:
     hostname: phpmyadmin
     restart: on-failure
 
+  sonar:
+    image: sonarqube
+    environment:
+      SONAR_HOST_URL: sonar.afonso.dev
+    volumes:
+      - ${DATA_DIR:?}/sonar/conf:/opt/sonarqube/conf
+      - ${DATA_DIR:?}/sonar/data:/opt/sonarqube/data
+      - ${DATA_DIR:?}/sonar/logs:/opt/sonarqube/logs
+      - ${DATA_DIR:?}/sonar/extensions:/opt/sonarqube/extensions
+    restart: on-failure
+
   spring-playground:
     image: registry.gitlab.com/afonsodemori/spring-playground:latest
     platform: linux/amd64
