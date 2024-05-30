@@ -13,7 +13,8 @@ services:
       - meteosaucana
       - phpmyadmin
       - sophia
-    restart: unless-stopped
+      - spring-playground
+    restart: on-failure
 
   mariadb:
     image: mariadb:11
@@ -27,7 +28,7 @@ services:
       - ${DATA_DIR:?}/mariadb:/var/lib/mysql
     ports:
       - "3306:3306"
-    restart: unless-stopped
+    restart: on-failure
 
   phpmyadmin:
     image: phpmyadmin:5
@@ -38,7 +39,7 @@ services:
       UPLOAD_LIMIT: 104857600
       PMA_ABSOLUTE_URI: https://phpmyadmin
     hostname: phpmyadmin
-    restart: unless-stopped
+    restart: on-failure
 
   spring-playground:
     image: registry.gitlab.com/afonsodemori/spring-playground:latest
@@ -50,16 +51,15 @@ services:
       DB_USER: ${SPRING_PLAYGROUND_DB_USER:?}
       DB_PASS: ${SPRING_PLAYGROUND_DB_PASS:?}
     depends_on:
-      - nginx
       - mariadb
-    restart: unless-stopped
+    restart: on-failure
 
   sophia:
     image: registry.gitlab.com/afonsodemori/sophia-web:latest
     environment:
       APP_ENV: prod
       DATABASE_URL: ${SOPHIA_DATABASE_DSN:?}
-    restart: unless-stopped
+    restart: on-failure
 
   meteosaucana:
     image: registry.gitlab.com/afonsodemori/meteosaucana:latest
@@ -71,4 +71,4 @@ services:
       DB_PASS: ${METEOSAUCANA_DB_PASS:?}
     depends_on:
       - mariadb
-    restart: unless-stopped
+    restart: on-failure
