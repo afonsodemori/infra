@@ -10,6 +10,7 @@ apt install -y \
     locales \
     bash-completion \
     iputils-ping \
+    cron \
     curl \
     vim \
     make \

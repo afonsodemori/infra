@@ -1,0 +1,3 @@
+# Documentation at https://crontab.guru
+# minute - hour - day of month - month - day of week - command
+37 4 * * 3 docker compose -f /fns/infra/compose.yml run letsencrypt renew >> /fns/infra-data/crontab/letsencrypt.log 2>&1
