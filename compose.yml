@@ -24,7 +24,7 @@ services:
     volumes:
       - ${DATA_DIR:?}/letsencrypt/logs:/var/log/letsencrypt
       - ${DATA_DIR:?}/letsencrypt/data:/etc/letsencrypt
-    restart: never
+    restart: no
 
   mariadb:
     image: mariadb:11
