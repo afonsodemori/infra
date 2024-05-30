@@ -16,6 +16,16 @@ services:
       - spring-playground
     restart: on-failure
 
+  letsencrypt: # to be run via bin/letsencrypt
+    image: registry.gitlab.com/afonsodemori/infra/letsencrypt:latest
+    environment:
+      EMAIL_ADDRESS: ${LETSENCRYPT_EMAIL_ADDRESS:?}
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?}
+    volumes:
+      - ${DATA_DIR:?}/letsencrypt/logs:/var/log/letsencrypt
+      - ${DATA_DIR:?}/letsencrypt/data:/etc/letsencrypt
+    restart: never
+
   mariadb:
     image: mariadb:11
     environment:
