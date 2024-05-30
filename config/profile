@@ -2,7 +2,18 @@
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US.UTF-8"
 
-PS1='\n\[\033[0;32m\]\u\[\e[m\]\[\033[0;32m\]@`hostname -f`\[\e[m\] \[\033[1;34m\]\w\[\e[m\]\n\[\033[0;33m\]\$\[\e[m\] '
+function _ps1_check() {
+  if [[ "$?" -ne 0 ]]; then
+    local icons=('👎' '🤷' '🤮' '🎃' '🤦' '🚨' '🤡' '😒' '🤬' '💩')
+    local index=$((RANDOM % ${#icons[@]}))
+
+    printf '%s\n\a' "${icons[$index]}"
+  fi
+}
+
+PS1='\n$(_ps1_check)'
+PS1+='\[\033[0;32m\]\u\[\e[m\]\[\033[0;32m\]@`hostname -f`\[\e[m\] '
+PS1+='➜ \[\033[1;34m\]\w\[\e[m\]\n\[\033[0;33m\]\$\[\e[m\] '
 
 alias ls='ls -h --color'
 alias grep='grep --color'
