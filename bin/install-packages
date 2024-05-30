@@ -40,3 +40,9 @@ if ! command -v docker; then
 fi
 
 echo "Done."
+
+vimrc_path="$HOME/.vimrc"
+if [[ ! -f $vimrc_path ]]; then
+    home_dir="${INFRA_DIR:?}"
+    cp "$home_dir/config/.vimrc" "$vimrc_path"
+fi
