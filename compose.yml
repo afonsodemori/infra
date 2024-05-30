@@ -16,7 +16,7 @@ services:
       - spring-playground
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
   letsencrypt: # to be run via bin/letsencrypt
     image: registry.gitlab.com/afonsodemori/infra/letsencrypt:latest
@@ -42,7 +42,7 @@ services:
       - "3306:3306"
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
   phpmyadmin:
     image: phpmyadmin:5
@@ -55,7 +55,7 @@ services:
     hostname: phpmyadmin
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
   sonar:
     image: sonarqube
@@ -68,7 +68,7 @@ services:
       - ${DATA_DIR:?}/sonar/extensions:/opt/sonarqube/extensions
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
   spring-playground:
     image: registry.gitlab.com/afonsodemori/spring-playground:latest
@@ -83,7 +83,7 @@ services:
       - mariadb
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
   sophia:
     image: registry.gitlab.com/afonsodemori/sophia-web:latest
@@ -92,7 +92,7 @@ services:
       DATABASE_URL: ${SOPHIA_DATABASE_DSN:?}
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
   meteosaucana:
     image: registry.gitlab.com/afonsodemori/meteosaucana:latest
@@ -106,7 +106,7 @@ services:
       - mariadb
     networks:
       - infra_network
-    restart: on-failure
+    restart: always
 
 networks:
   infra_network:
