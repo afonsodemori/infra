@@ -38,3 +38,23 @@ make copy/sonar
 ## Simulation server
 
 To minimally simulate the production server, there is a script at `bin/server-simulation` that runs a debian container with privileges to run docker inside. The instructions of this README can be executed inside that container as if it was another server. It's an approximation, since it's not a VPS, but good enough for testing :-)
+
+## Adding swap to a new server
+
+```bash
+# check swap size
+swapon --show # or free -m
+# create a swap file
+fallocate -l 10G /swapfile
+# set the correct permission
+chmod 600 /swapfile
+# set up a swap area on the file
+mkswap /swapfile
+# activate the swap file
+swapon /swapfile
+# make the change permanent by adding to above line to /etc/fstab
+# /swapfile swap swap defaults 0 0
+vi /etc/fstab
+# check the swap size
+swapon --show
+```
