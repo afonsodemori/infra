@@ -9,7 +9,7 @@ apt upgrade -y
 apt install -y \
     locales \
     bash-completion \
-    iputils-ping \
+    dnsutils \
     cron \
     curl \
     vim \
