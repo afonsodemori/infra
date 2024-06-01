@@ -23,7 +23,7 @@ if docker ps --filter "name=$container_name" --filter "status=running" | grep -q
 fi
 
 echo "Starting a new $container_name..."
-read -rp "Mount the current directory inside the container? (yes/no) " response
+read -rp "Mount the current directory inside the container? (yes/NO) " response
 
 mount=""
 if [[ $response == "yes" ]]; then

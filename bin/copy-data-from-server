@@ -13,7 +13,7 @@ fi
 if [[ ${ENV:?} = "prod" ]]; then
     echo "[!] YOU ARE IN PRODUCTION"
 
-    read -rp "Are you sure you want to proceed? (yes/no): " response
+    read -rp "Are you sure you want to proceed? (yes/NO): " response
     if [[ $response != "yes" ]]; then
         echo "Operation aborted."
         exit 1

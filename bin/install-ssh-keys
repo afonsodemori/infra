@@ -18,7 +18,7 @@ if [[ ! -f "$private_key" ]]; then
         public_key_string=$(cat "$public_key")
         echo "$public_key_string"
 
-        read -rp "Do you want to authorize it on the remote server? (yes/no) " response
+        read -rp "Do you want to authorize it on the remote server? (yes/NO) " response
 
         if [[ "$response" == "yes" ]]; then
             # shellcheck disable=SC2029
