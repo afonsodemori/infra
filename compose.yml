@@ -72,14 +72,19 @@ services:
     restart: always
 
   sonar:
-    image: sonarqube
+    image: sonarqube:10-community
     environment:
+      SONAR_JDBC_URL: ${SONAR_JDBC_URL:?}
+      SONAR_JDBC_USERNAME: ${SONAR_JDBC_USERNAME:?}
+      SONAR_JDBC_PASSWORD: ${SONAR_JDBC_PASSWORD:?}
       SONAR_HOST_URL: sonar.afonso.dev
     volumes:
-      - ${DATA_DIR:?}/sonar/conf:/opt/sonarqube/conf
-      - ${DATA_DIR:?}/sonar/data:/opt/sonarqube/data
-      - ${DATA_DIR:?}/sonar/logs:/opt/sonarqube/logs
-      - ${DATA_DIR:?}/sonar/extensions:/opt/sonarqube/extensions
+      - sonar_conf:/opt/sonarqube/conf
+      - sonar_data:/opt/sonarqube/data
+      - sonar_logs:/opt/sonarqube/logs
+      - sonar_extensions:/opt/sonarqube/extensions
+    depends_on:
+      - postgres
     networks:
       - infra_network
     restart: always
@@ -144,3 +149,7 @@ networks:
 
 volumes:
   postgres_data:
+  sonar_conf:
+  sonar_data:
+  sonar_logs:
+  sonar_extensions:
