@@ -74,10 +74,10 @@ services:
   sonar:
     image: sonarqube:10-community
     environment:
+      SONAR_HOST_URL: ${SONAR_HOST_URL:?}
       SONAR_JDBC_URL: ${SONAR_JDBC_URL:?}
       SONAR_JDBC_USERNAME: ${SONAR_JDBC_USERNAME:?}
       SONAR_JDBC_PASSWORD: ${SONAR_JDBC_PASSWORD:?}
-      SONAR_HOST_URL: sonar.afonso.dev
     volumes:
       - sonar_conf:/opt/sonarqube/conf
       - sonar_data:/opt/sonarqube/data
