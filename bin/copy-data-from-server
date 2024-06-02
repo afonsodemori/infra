@@ -11,7 +11,7 @@ if [[ -z $1 ]]; then
 fi
 
 check_prod_environment() {
-    if [[ ${ENV:?} = "prod" ]]; then
+    if [[ ${INFRA_ENV:?} = "prod" ]]; then
         echo "[!] YOU ARE IN PRODUCTION"
         read -rp "Proceed with the copy of $dir_to_copy? (yes/NO): " response
         if [[ $response != "yes" ]]; then

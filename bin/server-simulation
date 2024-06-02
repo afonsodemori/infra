@@ -39,6 +39,7 @@ docker run \
     --tty \
     --detach \
     --privileged \
+    --workdir=$infra_dir \
     $mount \
     --volume "$data_dir:$data_dir" \
     --volume "/var/run/docker.sock:/var/run/docker.sock" \

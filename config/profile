@@ -30,18 +30,14 @@ alias q='exit'
 
 # GIT COMMANDS
 
-alias gp='git pull --rebase'
 alias gs='git status'
 alias gsu='git status -uno'
 alias gd='git diff'
-alias ga='git add'
+#alias ga='git add'
 alias gc='git checkout'
 alias gl='git log'
 alias gls='gl --stat'
-alias glsme='gls --author=afonso'
 alias glo='gl --oneline'
-alias gcm='git commit -m'
-alias gcam='git commit --amend -m'
 
 # TODO: hardcoded :-/
-cd /fns/infra
+cd /fns/infra 2>/dev/null || true
