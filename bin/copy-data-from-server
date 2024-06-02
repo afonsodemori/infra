@@ -10,14 +10,27 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-production_warning() {
+check_prod_environment() {
     if [[ ${ENV:?} = "prod" ]]; then
         echo "[!] YOU ARE IN PRODUCTION"
-
         read -rp "Proceed with the copy of $dir_to_copy? (yes/NO): " response
         if [[ $response != "yes" ]]; then
             echo "Operation aborted."
             exit 1
+        fi
+    fi
+}
+
+check_already_existing_local() {
+    mkdir -pv "$local_dir";
+
+    if [ "$(ls -A "$local_dir" | wc -l)" -ne 0 ]; then
+        read -rp "The local directory is not empty. Continue? (yes/NO) " response
+        if [[ $response != "yes" ]]; then
+            echo "Operation aborted."
+            exit 1
+        else
+            rm -rf "${local_dir:?}"/{*,.*}
         fi
     fi
 }
@@ -40,10 +53,9 @@ delete_copy_from_remote() {
 }
 
 extract_locally() {
-    mkdir -pv "$local_data_dir/$dir_to_copy"
+    mkdir -pv "$local_dir"
     echo "Extracting '$dir_to_copy.tgz' locally..."
     tar -zxf "/tmp/$dir_to_copy.tgz" -C "$local_data_dir"
-
 }
 
 delete_local_compressed_copy() {
@@ -54,8 +66,10 @@ dir_to_copy="$1"
 remote_host="${SERVER_USER:?}@${SERVER_HOST:?}"
 server_data_dir="${SERVER_DATA_DIR:?}"
 local_data_dir="${DATA_DIR:?}"
+local_dir="${DATA_DIR:?}/${dir_to_copy:?}"
 
-production_warning
+check_prod_environment
+check_already_existing_local
 compress_remote_dir
 download_compressed_copy
 delete_copy_from_remote
