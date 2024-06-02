@@ -11,7 +11,5 @@ echo "Creating directories:"
 mkdir -pv "$data_dir/crontab"
 mkdir -pv "$data_dir/letsencrypt"
 mkdir -pv "$data_dir/mariadb"
-mkdir -pv "$data_dir/mysql"
-mkdir -pv "$data_dir/sonar" && chmod -R 775 "$data_dir/sonar"
 
 echo "Done."
