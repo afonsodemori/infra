@@ -1,8 +1,14 @@
-# Infra
+# About
 
-Repository with helpers to easily manage my personal VPS.
+👋 Hi, I'm Afonso!
 
-## Install
+I'm a Software Engineer, and this repository contains a series of scripts and configuration files to help me manage my VPS, where I make my experiments and have some projects hosted once in a while.
+
+If this can help you somehow, go ahead and fork it :-)
+
+You can find me at https://afonso.dev or https://github.com/afonsodemori.
+
+# Install
 
 To start using this repository in a new production environment, start by installing git, creating the workdir and cloning this repository into it by executing the following snippet:
 
@@ -22,7 +28,7 @@ Once the repository is cloned and `.env` is correctly set, run `bin/install` to 
 
 Each of the previous commands can also be run independently and as much as needed.
 
-## Copying data from another server
+# Copying data from another server
 
 There's a helper to copy the data from another production server, defined in `.env`.
 
@@ -31,39 +37,32 @@ To do the copy, run `make copy/all`. This command will execute the following com
 ```bash
 make copy/letsencrypt
 make copy/mariadb
-make copy/mysql
-make copy/sonar
 ```
 
-## Simulation server
+# Simulation server
 
 To minimally simulate the production server, there is a script at `bin/server-simulation` that runs a debian container with privileges to run docker inside. The instructions of this README can be executed inside that container as if it was another server. It's an approximation, since it's not a VPS, but good enough for testing :-)
 
+# Troubleshoot
+
 ## Adding swap to a new server
 
-```bash
-# check swap size
-swapon --show # or free -m
-# create a swap file
-fallocate -l 10G /swapfile
-# set the correct permission
-chmod 600 /swapfile
-# set up a swap area on the file
-mkswap /swapfile
-# activate the swap file
-swapon /swapfile
-# make the change permanent by adding to above line to /etc/fstab
-# /swapfile swap swap defaults 0 0
-vi /etc/fstab
-# check the swap size
-swapon --show
-```
+Sometimes it's necessary to set or add swap to the ~low cost~ VPS. It can be achieved with the following snippet:
 
-## Troubleshoot
+```bash
+swapon --show # or free -m -> check swap size
+fallocate -l 10G /swapfile # create a swap file
+chmod 600 /swapfile # set the correct permission
+mkswap /swapfile # set up a swap area on the file
+swapon /swapfile # activate the swap file
+echo "/swapfile swap swap defaults 0 0" >> /etc/fstab && cat /etc/fstab # make the change permanent
+swapon --show # check the swap size
+```
 
 ### Sonar requirements
 
-_@TODO: Automate it_
+_TODO: Automate it!_
+
 > **Docker Host Requirements**
 >
 > Because SonarQube uses an embedded Elasticsearch, make sure that your Docker host configuration complies with the Elasticsearch production mode requirements and File Descriptors configuration.
@@ -77,4 +76,8 @@ ulimit -n 131072
 ulimit -u 8192
 ```
 
-_Source: https://hub.docker.com/_/sonarqube_
+From: https://hub.docker.com/_/sonarqube
+
+---
+
+_— [afonso.dev](https://afonso.dev)_
