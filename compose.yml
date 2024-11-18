@@ -113,6 +113,12 @@ services:
       - infra_network
     restart: always
 
+  sophia-memory-game:
+    image: registry.gitlab.com/afonsodemori/sophia-memory-game:latest
+    networks:
+      - infra_network
+    restart: always
+
   meteosaucana:
     image: registry.gitlab.com/afonsodemori/meteosaucana:latest
     environment:
