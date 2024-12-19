@@ -1,5 +1,4 @@
 services:
-
   nginx:
     image: nginx:1-alpine
     volumes:
@@ -13,8 +12,6 @@ services:
       - jrbaena
       - meteosaucana
       - phpmyadmin
-      - sophia
-      - spring-playground
     networks:
       - infra_network
     restart: always
@@ -46,10 +43,7 @@ services:
     image: mariadb:11
     environment:
       MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?}
-    command: [
-      '--character-set-server=utf8mb4',
-      '--collation-server=utf8mb4_unicode_ci'
-    ]
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
     volumes:
       - ${DATA_DIR:?}/mariadb:/var/lib/mysql
     ports:
@@ -71,53 +65,23 @@ services:
       - infra_network
     restart: always
 
-  sonar:
-    image: sonarqube:10-community
-    environment:
-      SONAR_HOST_URL: ${SONAR_HOST_URL:?}
-      SONAR_JDBC_URL: ${SONAR_JDBC_URL:?}
-      SONAR_JDBC_USERNAME: ${SONAR_JDBC_USERNAME:?}
-      SONAR_JDBC_PASSWORD: ${SONAR_JDBC_PASSWORD:?}
-    volumes:
-      - sonar_conf:/opt/sonarqube/conf
-      - sonar_data:/opt/sonarqube/data
-      - sonar_logs:/opt/sonarqube/logs
-      - sonar_extensions:/opt/sonarqube/extensions
-    depends_on:
-      - postgres
-    networks:
-      - infra_network
-    restart: always
-
-  spring-playground:
-    image: registry.gitlab.com/afonsodemori/spring-playground:latest
-    platform: linux/amd64
-    environment:
-      DB_URL: ${SPRING_PLAYGROUND_DB_HOST:?}
-      DB_PORT: ${SPRING_PLAYGROUND_DB_PORT:?}
-      DB_NAME: ${SPRING_PLAYGROUND_DB_NAME:?}
-      DB_USER: ${SPRING_PLAYGROUND_DB_USER:?}
-      DB_PASS: ${SPRING_PLAYGROUND_DB_PASS:?}
-    depends_on:
-      - mariadb
-    networks:
-      - infra_network
-    restart: always
-
-  sophia:
-    image: registry.gitlab.com/afonsodemori/sophia-web:latest
-    environment:
-      APP_ENV: prod
-      DATABASE_URL: ${SOPHIA_DATABASE_DSN:?}
-    networks:
-      - infra_network
-    restart: always
-
-  sophia-memory-game:
-    image: registry.gitlab.com/afonsodemori/sophia-memory-game:latest
-    networks:
-      - infra_network
-    restart: always
+  # sonar:
+  #   image: sonarqube:10-community
+  #   environment:
+  #     SONAR_HOST_URL: ${SONAR_HOST_URL:?}
+  #     SONAR_JDBC_URL: ${SONAR_JDBC_URL:?}
+  #     SONAR_JDBC_USERNAME: ${SONAR_JDBC_USERNAME:?}
+  #     SONAR_JDBC_PASSWORD: ${SONAR_JDBC_PASSWORD:?}
+  #   volumes:
+  #     - sonar_conf:/opt/sonarqube/conf
+  #     - sonar_data:/opt/sonarqube/data
+  #     - sonar_logs:/opt/sonarqube/logs
+  #     - sonar_extensions:/opt/sonarqube/extensions
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - infra_network
+  #   restart: always
 
   meteosaucana:
     image: registry.gitlab.com/afonsodemori/meteosaucana:latest
