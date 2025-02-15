@@ -111,10 +111,11 @@ services:
       - infra_network
     restart: always
 
-  nodepress-api:
-    image: ghcr.io/afonsodemori/nodepress-api:feat-workflow-docker-images
+  nodepress-api-test:
+    image: ghcr.io/afonsodemori/nodepress-api:test
     networks:
       - infra_network
+    restart: always
 
 networks:
   infra_network:
