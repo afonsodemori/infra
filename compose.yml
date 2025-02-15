@@ -111,6 +111,11 @@ services:
       - infra_network
     restart: always
 
+  nodepress-api:
+    image: ghcr.io/afonsodemori/nodepress-api:feat-workflow-docker-images
+    networks:
+      - infra_network
+
 networks:
   infra_network:
     ipam:
