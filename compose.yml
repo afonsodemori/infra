@@ -113,6 +113,12 @@ services:
 
   nodepress-api-test:
     image: ghcr.io/afonsodemori/nodepress-api:test
+    environment:
+      DB_HOST: ${NODEPRESS_API_TEST_DB_HOST:?}
+      DB_PORT: ${NODEPRESS_API_TEST_DB_PORT:?}
+      DB_NAME: ${NODEPRESS_API_TEST_DB_NAME:?}
+      DB_USER: ${NODEPRESS_API_TEST_DB_USER:?}
+      DB_PASS: ${NODEPRESS_API_TEST_DB_PASS:?}
     networks:
       - infra_network
     restart: always
