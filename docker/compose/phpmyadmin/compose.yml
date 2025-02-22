@@ -1,0 +1,9 @@
+services:
+  phpmyadmin:
+    image: phpmyadmin:5
+    env_file:
+      - .env
+    hostname: phpmyadmin
+    networks:
+      - infra_network
+    restart: always

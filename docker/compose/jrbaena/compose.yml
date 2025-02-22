@@ -1,0 +1,10 @@
+services:
+  jrbaena:
+    image: registry.gitlab.com/afonsodemori/jrbaena
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    networks:
+      - infra_network
+    restart: always
