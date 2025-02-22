@@ -1,0 +1,6 @@
+services:
+  nodepress-web-test:
+    image: ghcr.io/afonsodemori/nodepress-web:test
+    networks:
+      - infra_network
+    restart: always
