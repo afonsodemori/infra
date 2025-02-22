@@ -124,6 +124,21 @@ services:
       - infra_network
     restart: always
 
+  nodepress-newsbot-test:
+    image: ghcr.io/afonsodemori/nodepress-newsbot:test
+    environment:
+      NODEPRESS_API_BASE_URL: ${NODEPRESS_NEWSBOT_NODEPRESS_API_BASE_URL:?}
+      NEWS_SECTIONS: ${NODEPRESS_NEWSBOT_NEWS_SECTIONS:?}
+      TEXT_AI_PROVIDER: ${NODEPRESS_NEWSBOT_TEXT_AI_PROVIDER:?}
+      CLOUDFLARE_ACCOUNT_ID: ${NODEPRESS_NEWSBOT_CLOUDFLARE_ACCOUNT_ID:?}
+      CLOUDFLARE_AI_TOKEN: ${NODEPRESS_NEWSBOT_CLOUDFLARE_AI_TOKEN:?}
+      CLOUDFLARE_AI_TEXT_MODEL: ${NODEPRESS_NEWSBOT_CLOUDFLARE_AI_TEXT_MODEL:?}
+      GOOGLE_AI_API_KEY: ${NODEPRESS_NEWSBOT_GOOGLE_AI_API_KEY:?}
+      GOOGLE_AI_TEXT_MODEL: ${NODEPRESS_NEWSBOT_GOOGLE_AI_TEXT_MODEL:?}
+    networks:
+      - infra_network
+    restart: always
+
 networks:
   infra_network:
     ipam:
