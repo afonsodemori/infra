@@ -12,6 +12,9 @@ services:
       - jrbaena
       - meteosaucana
       - phpmyadmin
+      - nodepress-api-test
+      - nodepress-web-test
+      - nodepress-newsbot-test
     networks:
       - infra_network
     restart: always

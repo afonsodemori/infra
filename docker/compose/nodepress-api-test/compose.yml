@@ -3,6 +3,8 @@ services:
     image: ghcr.io/afonsodemori/nodepress-api:test
     env_file:
       - .env
+    depends_on:
+      - postgres
     networks:
       - infra_network
     restart: always

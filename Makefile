@@ -28,7 +28,6 @@ logs:
 	@docker compose logs -f
 
 down:
-	@docker compose kill
 	@docker compose down --remove-orphans
 
 # import from remote
