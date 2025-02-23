@@ -1,0 +1,10 @@
+services:
+  nodepress-newsbot-production:
+    image: ghcr.io/afonsodemori/nodepress-newsbot:${NEWSBOT_TAG:-latest}
+    env_file:
+      - .env
+    depends_on:
+      - nodepress-api-production
+    networks:
+      - infra_network
+    restart: always

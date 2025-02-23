@@ -1,0 +1,10 @@
+services:
+  nodepress-api-production:
+    image: ghcr.io/afonsodemori/nodepress-api:${API_TAG:-latest}
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - infra_network
+    restart: always
