@@ -1,6 +1,6 @@
 services:
   nodepress-newsbot-test:
-    image: ghcr.io/afonsodemori/nodepress-newsbot:test
+    image: ghcr.io/afonsodemori/nodepress-newsbot:${NEWSBOT_TAG:-test}
     env_file:
       - .env
     depends_on:

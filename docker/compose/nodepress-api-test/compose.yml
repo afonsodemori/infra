@@ -1,6 +1,6 @@
 services:
   nodepress-api-test:
-    image: ghcr.io/afonsodemori/nodepress-api:test
+    image: ghcr.io/afonsodemori/nodepress-api:${API_TAG:-test}
     env_file:
       - .env
     depends_on:

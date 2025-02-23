@@ -1,6 +1,6 @@
 services:
   nodepress-web-test:
-    image: ghcr.io/afonsodemori/nodepress-web:test
+    image: ghcr.io/afonsodemori/nodepress-web:${WEB_TAG:-test}
     env_file:
       - .env
     depends_on:
