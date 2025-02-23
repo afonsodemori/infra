@@ -1,6 +1,8 @@
 services:
   nodepress-web-test:
     image: ghcr.io/afonsodemori/nodepress-web:test
+    env_file:
+      - .env
     networks:
       - infra_network
     restart: always
