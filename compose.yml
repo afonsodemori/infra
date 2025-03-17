@@ -19,6 +19,7 @@ services:
       - nodepress-newsbot-production
       - nodepress-web-production
       - ephemeral-web-test
+      - ephemeral-web-production
     networks:
       - infra_network
     restart: always
