@@ -18,6 +18,7 @@ services:
       - nodepress-api-production
       - nodepress-newsbot-production
       - nodepress-web-production
+      - ephemeral-web-test
     networks:
       - infra_network
     restart: always
@@ -62,6 +63,7 @@ include:
   - path: ./docker/compose/phpmyadmin/compose.yml
   - path: ./docker/compose/jrbaena/compose.yml
   - path: ./docker/compose/meteosaucana/compose.yml
+  - path: ./docker/compose/ephemeral-web-test/compose.yml
   - path: ./docker/compose/nodepress-api-test/compose.yml
   - path: ./docker/compose/nodepress-newsbot-test/compose.yml
   - path: ./docker/compose/nodepress-web-test/compose.yml
