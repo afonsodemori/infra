@@ -1,6 +1,6 @@
 services:
   ephemeral-web-test:
-    image: ghcr.io/afonsodemori/ephemeral-web-test:${TAG_VERSION:-latest}
+    image: ghcr.io/afonsodemori/ephemeral-web:${TAG_VERSION:-latest}
     env_file:
       - .env
     depends_on:
