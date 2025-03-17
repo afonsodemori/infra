@@ -64,6 +64,7 @@ include:
   - path: ./docker/compose/jrbaena/compose.yml
   - path: ./docker/compose/meteosaucana/compose.yml
   - path: ./docker/compose/ephemeral-web-test/compose.yml
+  - path: ./docker/compose/ephemeral-web-production/compose.yml
   - path: ./docker/compose/nodepress-api-test/compose.yml
   - path: ./docker/compose/nodepress-newsbot-test/compose.yml
   - path: ./docker/compose/nodepress-web-test/compose.yml
