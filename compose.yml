@@ -12,12 +12,12 @@ services:
       - jrbaena
       - meteosaucana
       - phpmyadmin
-      - nodepress-api-test
-      - nodepress-newsbot-test
-      - nodepress-web-test
-      - nodepress-api-production
-      - nodepress-newsbot-production
-      - nodepress-web-production
+      # - nodepress-api-test
+      # - nodepress-newsbot-test
+      # - nodepress-web-test
+      # - nodepress-api-production
+      # - nodepress-newsbot-production
+      # - nodepress-web-production
       - ephemeral-web-test
       - ephemeral-web-production
       - wg-easy
@@ -68,12 +68,12 @@ include:
   - path: ./docker/compose/meteosaucana/compose.yml
   - path: ./docker/compose/ephemeral-web-test/compose.yml
   - path: ./docker/compose/ephemeral-web-production/compose.yml
-  - path: ./docker/compose/nodepress-api-test/compose.yml
-  - path: ./docker/compose/nodepress-newsbot-test/compose.yml
-  - path: ./docker/compose/nodepress-web-test/compose.yml
-  - path: ./docker/compose/nodepress-api-production/compose.yml
-  - path: ./docker/compose/nodepress-newsbot-production/compose.yml
-  - path: ./docker/compose/nodepress-web-production/compose.yml
+  # - path: ./docker/compose/nodepress-api-test/compose.yml
+  # - path: ./docker/compose/nodepress-newsbot-test/compose.yml
+  # - path: ./docker/compose/nodepress-web-test/compose.yml
+  # - path: ./docker/compose/nodepress-api-production/compose.yml
+  # - path: ./docker/compose/nodepress-newsbot-production/compose.yml
+  # - path: ./docker/compose/nodepress-web-production/compose.yml
   - path: ./docker/compose/wg-easy/compose.yml
 
 networks:
