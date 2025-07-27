@@ -20,8 +20,10 @@ services:
       - nodepress-web-production
       - ephemeral-web-test
       - ephemeral-web-production
+      - wg-easy
     networks:
       - infra_network
+      - wg_network
     restart: always
 
   letsencrypt: # to be run via bin/letsencrypt
@@ -72,6 +74,7 @@ include:
   - path: ./docker/compose/nodepress-api-production/compose.yml
   - path: ./docker/compose/nodepress-newsbot-production/compose.yml
   - path: ./docker/compose/nodepress-web-production/compose.yml
+  - path: ./docker/compose/wg-easy/compose.yml
 
 networks:
   infra_network:
@@ -81,3 +84,4 @@ networks:
 
 volumes:
   postgres_data:
+  etc_wireguard:
