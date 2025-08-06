@@ -9,6 +9,7 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
+      - afonso-dev
       - jrbaena
       - meteosaucana
       - phpmyadmin
@@ -63,6 +64,7 @@ services:
     restart: always
 
 include:
+  - path: ./docker/compose/afonso-dev/compose.yml
   - path: ./docker/compose/phpmyadmin/compose.yml
   - path: ./docker/compose/jrbaena/compose.yml
   - path: ./docker/compose/meteosaucana/compose.yml
