@@ -1,6 +1,7 @@
 server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
+
 	server_name herald-test.afonso.dev;
 
 	ssl_certificate /etc/letsencrypt/live/herald-test.afonso.dev/fullchain.pem;
