@@ -21,6 +21,7 @@ services:
       # - nodepress-web-production
       - ephemeral-web-test
       - ephemeral-web-production
+      - my-crew-api-test
       - wg-easy
     networks:
       - infra_network
@@ -76,6 +77,7 @@ include:
   # - path: ./docker/compose/nodepress-api-production/compose.yml
   # - path: ./docker/compose/nodepress-newsbot-production/compose.yml
   # - path: ./docker/compose/nodepress-web-production/compose.yml
+  - path: ./docker/compose/my-crew-api-test/compose.yml
   - path: ./docker/compose/wg-easy/compose.yml
 
 networks:
