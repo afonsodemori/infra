@@ -1,0 +1,8 @@
+services:
+  my-crew-api-production:
+    image: registry.gitlab.com/my-crew-project/my-crew-api:${API_TAG:-latest}
+    env_file:
+      - .env
+    networks:
+      - infra_network
+    restart: always
