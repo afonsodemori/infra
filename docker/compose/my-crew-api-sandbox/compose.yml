@@ -1,6 +1,6 @@
 services:
   my-crew-api-sandbox:
-    image: registry.gitlab.com/my-crew-project/my-crew-api:${API_TAG:-latest}
+    image: registry.gitlab.com/my-crew-project/my-crew-api:${IMAGE_TAG:-latest}
     env_file:
       - .env
     networks:
