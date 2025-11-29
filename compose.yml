@@ -2,96 +2,73 @@ services:
   nginx:
     image: nginx:1-alpine
     volumes:
-      - ${INFRA_DIR:?}/docker/nginx/conf.d:/etc/nginx/conf.d:ro
-      - ${INFRA_DIR:?}/docker/nginx/html:/usr/share/nginx/html:ro
-      - ${DATA_DIR:?}/letsencrypt/data:/etc/letsencrypt:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/nginx/html:/usr/share/nginx/html:ro
+      - letsencrypt-data:/etc/letsencrypt:ro
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80"   # "[::]:80:80"
+      - "443:443" # "[::]:443:443"
     depends_on:
-      - afonso-dev
-      - jrbaena
-      - meteosaucana
-      - phpmyadmin
-      # - nodepress-api-test
-      # - nodepress-newsbot-test
-      # - nodepress-web-test
-      # - nodepress-api-production
-      # - nodepress-newsbot-production
-      # - nodepress-web-production
-      - ephemeral-web-test
+      - afonsodev-production
+      - jrbaena-production
+      - meteosaucana-production
+      # - ephemeral-web-test
       - ephemeral-web-production
-      - my-crew-api-sandbox
-      - my-crew-api-test
-      - my-crew-api-staging
-      - my-crew-api-production
-      - wg-easy
-    networks:
-      - infra_network
-      - wg_network
+      - mycrew-api-sandbox
+      - mycrew-api-test
+      - mycrew-api-staging
+      - mycrew-api-production
+      - pgadmin
+      - wgeasy
     restart: always
 
   letsencrypt: # to be run via bin/letsencrypt
-    image: registry.gitlab.com/afonsodemori/infra/letsencrypt:latest
+    image: registry.gitlab.com/afonsodemori/infra/letsencrypt:${LETSENCRYPT_IMAGE_TAG:-latest}
     environment:
       EMAIL_ADDRESS: ${LETSENCRYPT_EMAIL_ADDRESS:?}
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?}
+      PROPAGATION_SECONDS: ${CLOUDFLARE_DNS_PROPAGATION_SECONDS:?}
     volumes:
-      - ${DATA_DIR:?}/letsencrypt/logs:/var/log/letsencrypt
-      - ${DATA_DIR:?}/letsencrypt/data:/etc/letsencrypt
-    restart: no
+      - letsencrypt-data:/etc/letsencrypt
+      - letsencrypt-logs:/var/log/letsencrypt
+    profiles:
+      - ondemand
 
   postgres:
-    image: postgres:17-alpine
+    image: postgres:${POSTGRES_VERSION:?}
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:?}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "${POSTGRES_PORT:?}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - infra_network
+      - pgdata:/var/lib/postgresql/data
     restart: always
 
-  mariadb:
-    image: mariadb:11
+  pgadmin:
+    image: dpage/pgadmin4:latest
     environment:
-      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?}
-    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:?}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:?}
     volumes:
-      - ${DATA_DIR:?}/mariadb:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    networks:
-      - infra_network
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
     restart: always
 
 include:
-  - path: ./docker/compose/afonso-dev/compose.yml
-  - path: ./docker/compose/phpmyadmin/compose.yml
-  - path: ./docker/compose/jrbaena/compose.yml
-  - path: ./docker/compose/meteosaucana/compose.yml
-  - path: ./docker/compose/ephemeral-web-test/compose.yml
-  - path: ./docker/compose/ephemeral-web-production/compose.yml
-  # - path: ./docker/compose/nodepress-api-test/compose.yml
-  # - path: ./docker/compose/nodepress-newsbot-test/compose.yml
-  # - path: ./docker/compose/nodepress-web-test/compose.yml
-  # - path: ./docker/compose/nodepress-api-production/compose.yml
-  # - path: ./docker/compose/nodepress-newsbot-production/compose.yml
-  # - path: ./docker/compose/nodepress-web-production/compose.yml
-  - path: ./docker/compose/my-crew-api-sandbox/compose.yml
-  - path: ./docker/compose/my-crew-api-test/compose.yml
-  - path: ./docker/compose/my-crew-api-staging/compose.yml
-  - path: ./docker/compose/my-crew-api-production/compose.yml
-  - path: ./docker/compose/wg-easy/compose.yml
-
-networks:
-  infra_network:
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
+  - path: ./docker/compose/afonsodev-production/compose.yml
+  - path: ./docker/compose/jrbaena-production/compose.yml
+  - path: ./docker/compose/meteosaucana-production/compose.yml
+  # - path: ./docker/compose/ephemeral-test/compose.yml
+  - path: ./docker/compose/ephemeral-production/compose.yml
+  - path: ./docker/compose/mycrew-sandbox/compose.yml
+  - path: ./docker/compose/mycrew-test/compose.yml
+  - path: ./docker/compose/mycrew-staging/compose.yml
+  - path: ./docker/compose/mycrew-production/compose.yml
+  - path: ./docker/compose/wgeasy/compose.yml
 
 volumes:
-  postgres_data:
-  etc_wireguard:
+  pgdata:
+  pgadmin:
+  letsencrypt-data:
+  letsencrypt-logs:

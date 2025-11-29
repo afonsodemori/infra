@@ -70,6 +70,7 @@ case $command in
         eval "certbot certonly \
             --dns-cloudflare \
             --dns-cloudflare-credentials $cloudflare_secret_path \
+            --dns-cloudflare-propagation-seconds ${PROPAGATION_SECONDS:?} \
             ${domains}"
         ;;
     renew)

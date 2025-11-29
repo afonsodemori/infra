@@ -1,8 +1,6 @@
 services:
-  afonso-dev:
+  afonsodev-production:
     image: ghcr.io/afonsodemori/afonso-dev
     env_file:
       - .env
-    networks:
-      - infra_network
     restart: always

@@ -4,6 +4,4 @@ services:
     env_file:
       - .env
     hostname: phpmyadmin
-    networks:
-      - infra_network
     restart: always

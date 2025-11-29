@@ -1,10 +1,8 @@
 services:
-  ephemeral-web-test:
+  ephemeral-web-production:
     image: ghcr.io/afonsodemori/ephemeral-web:${TAG_VERSION:-latest}
     env_file:
       - .env
     depends_on:
       - postgres
-    networks:
-      - infra_network
     restart: always

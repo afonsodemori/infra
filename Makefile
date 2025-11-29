@@ -8,13 +8,17 @@ help:
 registry-login:
 	@docker login registry.gitlab.com
 
-docker/letsencrypt: registry-login .builder-create
-	@docker buildx build \
-		--platform linux/amd64,linux/arm64 \
+.PHONY: docker/letsencrypt
+docker/letsencrypt: DOCKER_IMAGE = registry.gitlab.com/afonsodemori/infra/letsencrypt
+docker/letsencrypt: TODAY = $(shell date +%F)
+docker/letsencrypt:
+	@docker build \
+		--platform linux/amd64 \
 		--file docker/letsencrypt/Dockerfile . \
-		--tag registry.gitlab.com/afonsodemori/infra/letsencrypt:latest \
-		--push
-	@docker pull registry.gitlab.com/afonsodemori/infra/letsencrypt:latest
+		--tag $(DOCKER_IMAGE):$(TODAY)
+		--tag $(DOCKER_IMAGE):latest \
+	@docker push $(DOCKER_IMAGE):$(TODAY)
+	@docker push $(DOCKER_IMAGE):latest
 
 # docker compose
 

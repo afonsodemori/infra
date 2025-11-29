@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# shellcheck disable=SC2068
-docker compose run --rm -it letsencrypt $@
+docker compose run --rm -i letsencrypt $@

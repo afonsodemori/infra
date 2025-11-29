@@ -10,8 +10,6 @@ services:
       - sonar_extensions:/opt/sonarqube/extensions
     depends_on:
       - postgres
-    networks:
-      - infra_network
     restart: always
 
 volumes:

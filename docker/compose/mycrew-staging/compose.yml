@@ -1,10 +1,8 @@
 services:
-  my-crew-api-staging:
+  mycrew-api-staging:
     image: registry.gitlab.com/my-crew-app/my-crew-api:${IMAGE_TAG:-latest}
     env_file:
       - .env
     depends_on:
       - postgres
-    networks:
-      - infra_network
     restart: always
