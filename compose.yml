@@ -10,6 +10,7 @@ services:
       - "443:443" # "[::]:443:443"
     depends_on:
       - afonsodev-production
+      - afonsodev-api-production
       - jrbaena-production
       - meteosaucana-production
       # - ephemeral-web-test
@@ -57,6 +58,7 @@ services:
 
 include:
   - path: ./docker/compose/afonsodev-production/compose.yml
+  - path: ./docker/compose/afonsodev-api-production/compose.yml
   - path: ./docker/compose/jrbaena-production/compose.yml
   - path: ./docker/compose/meteosaucana-production/compose.yml
   # - path: ./docker/compose/ephemeral-test/compose.yml

@@ -1,0 +1,6 @@
+services:
+  afonsodev-api-production:
+    image: registry.gitlab.com/afonsodemori/afonso-dev-api:latest
+    env_file:
+      - .env
+    restart: always
