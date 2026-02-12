@@ -1,6 +1,0 @@
-services:
-  afonsodev-production:
-    image: ghcr.io/afonsodemori/afonso-dev:latest
-    env_file:
-      - .env
-    restart: always
