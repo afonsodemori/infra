@@ -1,7 +1,0 @@
-services:
-  phpmyadmin:
-    image: phpmyadmin:5
-    env_file:
-      - .env
-    hostname: phpmyadmin
-    restart: always
