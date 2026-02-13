@@ -8,8 +8,6 @@ source .env
 data_dir="${DATA_DIR:?}"
 
 echo "Creating directories:"
-mkdir -pv "$data_dir/crontab"
-mkdir -pv "$data_dir/letsencrypt"
-mkdir -pv "$data_dir/mariadb"
+mkdir -pv "$data_dir/cron"
 
 echo "Done."

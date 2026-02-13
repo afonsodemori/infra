@@ -38,15 +38,6 @@ down:
 
 copy/all: copy/letsencrypt copy/mariadb copy/sonar
 
-copy/letsencrypt:
-	@./bin/copy-data-from-server letsencrypt
-
-copy/mariadb:
-	@./bin/copy-data-from-server mariadb
-
-copy/sonar:
-	@./bin/copy-data-from-server sonar
-
 # internals
 
 .builder-create:
