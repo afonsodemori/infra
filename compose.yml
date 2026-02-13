@@ -6,9 +6,8 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/nginx/snippets:/etc/nginx/snippets:ro
       - ./docker/nginx/html:/usr/share/nginx/html:ro
-      - letsencrypt-data:/etc/letsencrypt:ro
-      - /home/ops/data/nginx/logs:/var/log/nginx
-      - /home/ops/data/nginx/conf:/etc/nginx/conf:ro
+      - ${DATA_DIR:?}/nginx/logs:/var/log/nginx
+      - certbot-data:/etc/letsencrypt:ro
     ports:
       - "80:80"
       - "443:443"
@@ -26,15 +25,17 @@ services:
       - wgeasy
     restart: always
 
-  letsencrypt: # to be run via bin/letsencrypt
-    image: registry.gitlab.com/afonsodemori/infra/letsencrypt:${LETSENCRYPT_IMAGE_TAG:-latest}
+  certbot:
+    image: certbot/dns-cloudflare
     environment:
       EMAIL_ADDRESS: ${LETSENCRYPT_EMAIL_ADDRESS:?}
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?}
       PROPAGATION_SECONDS: ${CLOUDFLARE_DNS_PROPAGATION_SECONDS:?}
     volumes:
-      - letsencrypt-data:/etc/letsencrypt
-      - letsencrypt-logs:/var/log/letsencrypt
+      - certbot-data:/etc/letsencrypt
+      - certbot-logs:/var/log/letsencrypt
+      - ./docker/certbot/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
     profiles:
       - ondemand
 
@@ -72,5 +73,5 @@ include:
 volumes:
   pgdata:
   pgadmin:
-  letsencrypt-data:
-  letsencrypt-logs:
+  certbot-data:
+  certbot-logs:
