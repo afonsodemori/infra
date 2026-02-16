@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:1-alpine
+    image: dhi.io/nginx:${NGINX_VERSION:?}
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
