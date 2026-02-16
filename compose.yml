@@ -12,8 +12,8 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - afonsodev-api-production
-      - afonsodev-web-production
+      - afonsodev-production-api
+      - afonsodev-production-web
       - jrbaena-production
       - meteosaucana-production
       # - ephemeral-web-test
@@ -61,8 +61,7 @@ services:
     restart: unless-stopped
 
 include:
-  - path: ./docker/compose/afonsodev-api-production/compose.yml
-  - path: ./docker/compose/afonsodev-web-production/compose.yml
+  - path: ./docker/compose/afonsodev-production/compose.yml
   - path: ./docker/compose/jrbaena-production/compose.yml
   - path: ./docker/compose/meteosaucana-production/compose.yml
   # - path: ./docker/compose/ephemeral-test/compose.yml

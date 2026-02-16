@@ -1,4 +1,0 @@
-services:
-  afonsodev-web-production:
-    image: registry.gitlab.com/afonsodemori/afonso-dev:latest
-    restart: always
