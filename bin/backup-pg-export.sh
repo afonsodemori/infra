@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
 set -Eeuo pipefail
+
+source .env
 
 COMPOSE_SERVICE="${PG_BACKUP_COMPOSE_SERVICE:-postgres}"
 BACKUP_ROOT="${PG_BACKUP_BACKUP_DIR:-./backups}"
@@ -11,7 +14,7 @@ DOCKER_COMPOSE="docker compose exec -T ${COMPOSE_SERVICE}"
 mkdir -p "${BACKUP_ROOT}/${TIMESTAMP}"
 
 log() {
-  echo "[$(date -u +%Y-%m-%d %H:%M:%S)] $*"
+  echo "[$(date -u +'%Y-%m-%d %H:%M:%S')] $*"
 }
 
 log "Discovering user databases from pg_database..."
