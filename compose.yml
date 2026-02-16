@@ -38,9 +38,10 @@ services:
     entrypoint: ["/bin/sh", "/entrypoint.sh"]
     profiles:
       - ondemand
+    restart: never
 
   postgres:
-    image: postgres:${POSTGRES_VERSION:?}
+    image: dhi.io/postgres:${POSTGRES_VERSION:?}
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
     volumes:
@@ -48,7 +49,7 @@ services:
     restart: always
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:${PGADMIN_VERSION:?}
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:?}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:?}
@@ -56,7 +57,7 @@ services:
       - pgadmin:/var/lib/pgadmin
     depends_on:
       - postgres
-    restart: always
+    restart: unless-stopped
 
 include:
   - path: ./docker/compose/afonsodev-api-production/compose.yml
