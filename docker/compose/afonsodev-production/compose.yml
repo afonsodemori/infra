@@ -1,10 +1,10 @@
 services:
-  afonsodev-production-web:
-    image: registry.gitlab.com/afonsodemori/afonso-dev:latest
-    restart: unless-stopped
-
   afonsodev-production-api:
-    image: registry.gitlab.com/afonsodemori/afonso-dev-api:latest
+    image: registry.gitlab.com/afonsodemori/afonsodev-api:${API_TAG:-latest}
     env_file:
       - .env
+    restart: unless-stopped
+
+  afonsodev-production-web:
+    image: registry.gitlab.com/afonsodemori/afonsodev-web:${WEB_TAG:-latest}
     restart: unless-stopped
