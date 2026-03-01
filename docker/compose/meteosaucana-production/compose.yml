@@ -1,5 +1,5 @@
 services:
-  meteosaucana-production:
+  meteosaucana-production-web:
     image: registry.gitlab.com/afonsodemori/jrb-meteosaucana:${IMAGE_TAG:-latest}
     env_file:
       - .env

@@ -1,5 +1,5 @@
 services:
-  jrbaena-production:
+  jrbaena-production-web:
     image: registry.gitlab.com/afonsodemori/jrbaena
     env_file:
       - .env

@@ -14,66 +14,32 @@ services:
     depends_on:
       - afonsodev-production-api
       - afonsodev-production-web
-      - jrbaena-production
-      - meteosaucana-production
-      # - ephemeral-web-test
-      - ephemeral-web-production
-      - mycrew-api-sandbox
-      - mycrew-api-test
-      - mycrew-api-staging
-      - mycrew-api-production
+      - ephemeral-production-web
+      - jrbaena-production-web
+      - meteosaucana-production-web
+      - mycrew-sandbox-api
+      - mycrew-test-api
+      - mycrew-staging-api
+      - mycrew-production-api
       - pgadmin
       - wgeasy
     restart: always
 
-  certbot:
-    image: certbot/dns-cloudflare
-    environment:
-      EMAIL_ADDRESS: ${LETSENCRYPT_EMAIL_ADDRESS:?}
-      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?}
-      PROPAGATION_SECONDS: ${CLOUDFLARE_DNS_PROPAGATION_SECONDS:?}
-    volumes:
-      - certbot-data:/etc/letsencrypt
-      - certbot-logs:/var/log/letsencrypt
-      - ./docker/certbot/entrypoint.sh:/entrypoint.sh:ro
-    entrypoint: ["/bin/sh", "/entrypoint.sh"]
-    profiles:
-      - ondemand
-    restart: never
-
-  postgres:
-    image: dhi.io/postgres:${POSTGRES_VERSION:?}
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
-    volumes:
-      - pgdata:/var/lib/postgresql
-    restart: always
-
-  pgadmin:
-    image: dpage/pgadmin4:${PGADMIN_VERSION:?}
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:?}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:?}
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    depends_on:
-      - postgres
-    restart: unless-stopped
-
 include:
+  # Application services
   - path: ./docker/compose/afonsodev-production/compose.yml
+  - path: ./docker/compose/ephemeral-production/compose.yml
   - path: ./docker/compose/jrbaena-production/compose.yml
   - path: ./docker/compose/meteosaucana-production/compose.yml
-  # - path: ./docker/compose/ephemeral-test/compose.yml
-  - path: ./docker/compose/ephemeral-production/compose.yml
   - path: ./docker/compose/mycrew-sandbox/compose.yml
   - path: ./docker/compose/mycrew-test/compose.yml
   - path: ./docker/compose/mycrew-staging/compose.yml
   - path: ./docker/compose/mycrew-production/compose.yml
+  # Extra tools
+  - path: ./docker/compose/database/compose.yml
+  - path: ./docker/compose/certbot/compose.yml
   - path: ./docker/compose/wgeasy/compose.yml
 
 volumes:
-  pgdata:
-  pgadmin:
   certbot-data:
   certbot-logs:

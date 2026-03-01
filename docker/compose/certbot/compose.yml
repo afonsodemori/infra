@@ -1,0 +1,15 @@
+services:
+  certbot:
+    image: certbot/dns-cloudflare
+    environment:
+      EMAIL_ADDRESS: ${LETSENCRYPT_EMAIL_ADDRESS:?}
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?}
+      PROPAGATION_SECONDS: ${CLOUDFLARE_DNS_PROPAGATION_SECONDS:?}
+    volumes:
+      - certbot-data:/etc/letsencrypt
+      - certbot-logs:/var/log/letsencrypt
+      - ./docker/certbot/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
+    profiles:
+      - ondemand
+    restart: never
