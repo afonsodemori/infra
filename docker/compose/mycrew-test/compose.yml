@@ -1,8 +1,0 @@
-services:
-  mycrew-test-api:
-    image: registry.gitlab.com/my-crew-app/my-crew-api:${IMAGE_TAG:-latest}
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-    restart: always

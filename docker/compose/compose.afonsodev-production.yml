@@ -1,0 +1,16 @@
+services:
+  afonsodev-production-api:
+    image: ghcr.io/afonsodemori/afonsodev-api:${AFONSODEV_PRODUCTION_API_TAG:?}
+    environment:
+      ENV: ${AFONSODEV_PRODUCTION_ENV:?}
+      ALLOWED_ORIGIN: ${AFONSODEV_PRODUCTION_API_ALLOWED_ORIGIN:?}
+      RESEND_API_KEY: ${AFONSODEV_PRODUCTION_API_RESEND_API_KEY:?}
+      RECAPTCHA_SECRET: ${AFONSODEV_PRODUCTION_API_RECAPTCHA_SECRET:?}
+      TURNSTILE_SECRET: ${AFONSODEV_PRODUCTION_API_TURNSTILE_SECRET:?}
+      CONTACT_FROM: ${AFONSODEV_PRODUCTION_API_CONTACT_FROM:?}
+      CONTACT_TO: ${AFONSODEV_PRODUCTION_API_CONTACT_TO:?}
+    restart: unless-stopped
+
+  afonsodev-production-web:
+    image: ghcr.io/afonsodemori/afonsodev-web:${AFONSODEV_PRODUCTION_WEB_TAG:?}
+    restart: unless-stopped

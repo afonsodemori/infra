@@ -1,0 +1,12 @@
+services:
+  jrbaena-production-web:
+    image: registry.gitlab.com/afonsodemori/jrbaena:${JRBAENA_PRODUCTION_WEB_TAG:?}
+    environment:
+      DB_HOST: ${JRBAENA_PRODUCTION_WEB_DB_HOST:?}
+      DB_PORT: ${JRBAENA_PRODUCTION_WEB_DB_PORT:?}
+      DB_NAME: ${JRBAENA_PRODUCTION_WEB_DB_NAME:?}
+      DB_USER: ${JRBAENA_PRODUCTION_WEB_DB_USER:?}
+      DB_PASS: ${JRBAENA_PRODUCTION_WEB_DB_PASS:?}
+    depends_on:
+      - postgres
+    restart: always

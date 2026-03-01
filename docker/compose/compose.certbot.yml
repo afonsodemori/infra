@@ -2,9 +2,9 @@ services:
   certbot:
     image: certbot/dns-cloudflare
     environment:
-      EMAIL_ADDRESS: ${LETSENCRYPT_EMAIL_ADDRESS:?}
-      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:?}
-      PROPAGATION_SECONDS: ${CLOUDFLARE_DNS_PROPAGATION_SECONDS:?}
+      EMAIL_ADDRESS: ${CERTBOT_EMAIL_ADDRESS:?}
+      CLOUDFLARE_API_TOKEN: ${CERTBOT_CLOUDFLARE_API_TOKEN:?}
+      PROPAGATION_SECONDS: ${CERTBOT_PROPAGATION_SECONDS:?}
     volumes:
       - certbot-data:/etc/letsencrypt
       - certbot-logs:/var/log/letsencrypt

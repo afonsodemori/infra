@@ -22,23 +22,27 @@ services:
       - mycrew-staging-api
       - mycrew-production-api
       - pgadmin
+      - cadvisor
+      - prometheus
+      - grafana
       - wgeasy
     restart: always
 
 include:
   # Application services
-  - path: ./docker/compose/afonsodev-production/compose.yml
-  - path: ./docker/compose/ephemeral-production/compose.yml
-  - path: ./docker/compose/jrbaena-production/compose.yml
-  - path: ./docker/compose/meteosaucana-production/compose.yml
-  - path: ./docker/compose/mycrew-sandbox/compose.yml
-  - path: ./docker/compose/mycrew-test/compose.yml
-  - path: ./docker/compose/mycrew-staging/compose.yml
-  - path: ./docker/compose/mycrew-production/compose.yml
+  - path: ./docker/compose/compose.afonsodev-production.yml
+  - path: ./docker/compose/compose.ephemeral-production.yml
+  - path: ./docker/compose/compose.jrbaena-production.yml
+  - path: ./docker/compose/compose.meteosaucana-production.yml
+  - path: ./docker/compose/compose.mycrew-sandbox.yml
+  - path: ./docker/compose/compose.mycrew-test.yml
+  - path: ./docker/compose/compose.mycrew-staging.yml
+  - path: ./docker/compose/compose.mycrew-production.yml
   # Extra tools
-  - path: ./docker/compose/database/compose.yml
-  - path: ./docker/compose/certbot/compose.yml
-  - path: ./docker/compose/wgeasy/compose.yml
+  - path: ./docker/compose/compose.certbot.yml
+  - path: ./docker/compose/compose.database.yml
+  - path: ./docker/compose/compose.wgeasy.yml
+  - path: ./docker/compose/monitoring/compose.yml
 
 volumes:
   certbot-data:

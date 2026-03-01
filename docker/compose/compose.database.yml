@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: dhi.io/postgres:${DATABASE_POSTGRES_VERSION:?}
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_POSTGRES_PASSWORD:?}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4:${DATABASE_PGADMIN_VERSION:?}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${DATABASE_PGADMIN_EMAIL:?}
+      PGADMIN_DEFAULT_PASSWORD: ${DATABASE_PGADMIN_PASSWORD:?}
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  pgadmin:

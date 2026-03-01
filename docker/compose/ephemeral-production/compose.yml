@@ -1,8 +1,0 @@
-services:
-  ephemeral-production-web:
-    image: ghcr.io/afonsodemori/ephemeral-web:${TAG_VERSION:-latest}
-    env_file:
-      - .env
-    depends_on:
-      - postgres
-    restart: unless-stopped
