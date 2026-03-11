@@ -2,7 +2,7 @@ FROM ghcr.io/afonsodemori/devcontainers/base:debian-13
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
+RUN apt-get update && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y nodejs \
     && apt-get purge -y npm \
     && apt-get autoremove -y && apt-get clean -y \
