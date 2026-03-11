@@ -1,9 +1,11 @@
-include .env
+-include .env
 
 help:
 	@echo '@TODO'
 
-# docker compose
+####################
+## docker compose
+##########
 
 docker/update-images:
 	@docker compose pull
@@ -26,61 +28,54 @@ logs:
 down:
 	@docker compose down --remove-orphans
 
-# devcontainers
+####################
+## devcontainer
+##########
 
-devcontainer/setup:
-	docker buildx create --use --name multi-arch-builder || true
-	docker buildx inspect --bootstrap
+TAG_DATE ?= $$(date +%Y%m%d-%H%M%S)
+TAG_COMMIT ?= $$(git rev-parse --short HEAD)
 
-devcontainer/clean:
-	docker buildx rm multi-arch-builder || true
-
-devcontainer/debian-13/build: devcontainer/setup
+devcontainer/debian-13/build:
 	docker buildx build \
 		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
-		--file docker/registry/devcontainers-base/debian-13/Dockerfile \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):latest \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):$$(date +%Y%m%d) \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):debian \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):debian-$$(date +%Y%m%d) \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):debian-13 \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):debian-13-$$(date +%Y%m%d) \
+		--file docker/registry/devcontainer/debian/debian-13/Dockerfile \
+		--tag $(DEVCONTAINER_DEBIAN_IMAGE_NAME):13 \
+		--tag $(DEVCONTAINER_DEBIAN_IMAGE_NAME):13-$(TAG_DATE) \
+		--tag $(DEVCONTAINER_DEBIAN_IMAGE_NAME):13-$(TAG_COMMIT) \
 		--push .
 
 devcontainer/debian-13/build-local:
 	docker build \
-		--file docker/registry/devcontainers-base/debian-13/Dockerfile \
-		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):local \
+		--file docker/registry/devcontainer/debian/debian-13/Dockerfile \
+		--tag $(DEVCONTAINER_DEBIAN_IMAGE_NAME):13 \
 		.
 
-devcontainer/node-24/build: devcontainer/setup
+devcontainer/go-1.26/build:
 	docker buildx build \
 		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
-		--file docker/registry/devcontainers-node/node-24/Dockerfile \
-		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):latest \
-		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):$$(date +%Y%m%d) \
-		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24 \
-		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24-$$(date +%Y%m%d) \
-		--push .
-
-devcontainer/node-24/build-local:
-	docker build \
-		--file docker/registry/devcontainers-node/node-24/Dockerfile \
-		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):local \
-		.
-
-devcontainer/go-1.26/build: devcontainer/setup
-	docker buildx build \
-		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
-		--file docker/registry/devcontainers-golang/go-1.26/Dockerfile \
-		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):latest \
-		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):$$(date +%Y%m%d) \
+		--file docker/registry/devcontainer/golang/go-1.26/Dockerfile \
 		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26 \
-		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26-$$(date +%Y%m%d) \
+		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26-$(TAG_DATE) \
+		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26-$(TAG_COMMIT) \
 		--push .
 
 devcontainer/go-1.26/build-local:
 	docker build \
-		--file docker/registry/devcontainers-node/go-1.26/Dockerfile \
-		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):local \
+		--file docker/registry/devcontainer/golang/go-1.26/Dockerfile \
+		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26 \
+		.
+
+devcontainer/node-24/build:
+	docker buildx build \
+		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
+		--file docker/registry/devcontainer/node/node-24/Dockerfile \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24 \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24-$(TAG_DATE) \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24-$(TAG_COMMIT) \
+		--push .
+
+devcontainer/node-24/build-local:
+	docker build \
+		--file docker/registry/devcontainer/node/node-24/Dockerfile \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24 \
 		.
