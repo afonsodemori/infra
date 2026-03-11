@@ -22,8 +22,11 @@ ARG NONINTERACTIVE=1
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-    && /home/linuxbrew/.linuxbrew/bin/brew install afonsodemori/tap/fns-cli \
-    && /home/linuxbrew/.linuxbrew/bin/brew cleanup \
+    && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" \
+    && brew install \
+        afonsodemori/tap/fns-cli \
+        gemini-cli \
+    && brew cleanup \
     && echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
 
 USER root
