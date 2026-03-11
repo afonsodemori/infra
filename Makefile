@@ -26,7 +26,7 @@ logs:
 down:
 	@docker compose down --remove-orphans
 
-# base-devcontainer
+# devcontainers
 
 devcontainer/setup:
 	docker buildx create --use --name multi-arch-builder || true
@@ -51,5 +51,21 @@ devcontainer/debian-13/build-local:
 	docker build \
 		--file docker/registry/devcontainers-base/debian-13/Dockerfile \
 		--tag $(DEVCONTAINER_BASE_IMAGE_NAME):local \
+		.
+
+devcontainer/node-24/build: devcontainer/setup
+	docker buildx build \
+		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
+		--file docker/registry/devcontainers-node/node-24/Dockerfile \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):latest \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):$$(date +%Y%m%d) \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24 \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):$$(date +%Y%m%d)-24 \
+		--push .
+
+devcontainer/node-24/build-local:
+	docker build \
+		--file docker/registry/devcontainers-node/node-24/Dockerfile \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):local \
 		.
 
