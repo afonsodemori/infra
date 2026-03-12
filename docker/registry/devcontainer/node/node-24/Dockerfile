@@ -1,5 +1,7 @@
 FROM ghcr.io/afonsodemori/devcontainer/debian:13
 
+LABEL org.opencontainers.image.source="https://github.com/afonsodemori/infra"
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \

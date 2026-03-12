@@ -1,5 +1,7 @@
 FROM ghcr.io/afonsodemori/devcontainer/debian:13
 
+LABEL org.opencontainers.image.source="https://github.com/afonsodemori/infra"
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/apt/sources.list.d/goreleaser.list \

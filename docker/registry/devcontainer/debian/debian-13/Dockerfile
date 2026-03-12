@@ -1,5 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/base:debian-13
 
+LABEL org.opencontainers.image.source="https://github.com/afonsodemori/infra"
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV NPM_CONFIG_PREFIX=/home/vscode/.npm-global
