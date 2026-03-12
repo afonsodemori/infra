@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/devcontainers/base:debian-13
 
 LABEL org.opencontainers.image.source="https://github.com/afonsodemori/infra"
+LABEL org.opencontainers.image.licenses=MIT
 
 ARG DEBIAN_FRONTEND=noninteractive
 
