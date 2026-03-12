@@ -1,4 +1,4 @@
-FROM ghcr.io/afonsodemori/devcontainer/debian:13
+FROM ghcr.io/afonsodemori/devcontainers/debian:13
 
 LABEL org.opencontainers.image.source="https://github.com/afonsodemori/infra"
 
