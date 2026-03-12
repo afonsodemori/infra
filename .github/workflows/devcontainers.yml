@@ -62,7 +62,7 @@ jobs:
         run: |
           make devcontainer/node-24/build TAG_DATE=${{ env.TAG_DATE }} TAG_COMMIT=${{ env.TAG_COMMIT }}
 
-  go-1.26:
+  go-1-26:
     runs-on: ubuntu-latest
     env:
       DEVCONTAINER_IMAGE_PLATFORMS: ${{ vars.DEVCONTAINER_IMAGE_PLATFORMS }}
