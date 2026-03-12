@@ -45,9 +45,11 @@ devcontainer/debian-13/build:
 		--push .
 
 devcontainer/debian-13/build-local:
-	docker build \
+	docker buildx build \
+		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainer/debian/debian-13/Dockerfile \
 		--tag $(DEVCONTAINER_DEBIAN_IMAGE_NAME):13 \
+		--tag $(DEVCONTAINER_DEBIAN_IMAGE_NAME):13-$(TAG_DATE) \
 		.
 
 devcontainer/go-1.26/build:
@@ -60,9 +62,11 @@ devcontainer/go-1.26/build:
 		--push .
 
 devcontainer/go-1.26/build-local:
-	docker build \
+	docker buildx build \
+		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainer/golang/go-1.26/Dockerfile \
 		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26 \
+		--tag $(DEVCONTAINER_GOLANG_IMAGE_NAME):1.26-$(TAG_DATE) \
 		.
 
 devcontainer/node-24/build:
@@ -75,7 +79,9 @@ devcontainer/node-24/build:
 		--push .
 
 devcontainer/node-24/build-local:
-	docker build \
+	docker buildx build \
+		--platform $(DEVCONTAINER_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainer/node/node-24/Dockerfile \
 		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24 \
+		--tag $(DEVCONTAINER_NODE_IMAGE_NAME):24-$(TAG_DATE) \
 		.

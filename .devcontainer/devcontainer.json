@@ -1,0 +1,34 @@
+{
+  "name": "infra",
+  "dockerComposeFile": "compose.yml",
+  "service": "app",
+  "workspaceFolder": "/app",
+
+  "mounts": [
+    // cli
+    "source=${localEnv:HOME}/.fns-cli,target=/home/vscode/.fns-cli,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.bash_history,target=/home/vscode/.bash_history,type=bind,consistency=cached",
+    // devtools
+    "source=gemini,target=/home/vscode/.gemini,type=volume",
+    // source code
+    "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached"
+  ],
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "mkhl.shfmt"
+      ]
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/install.sh"
+}
