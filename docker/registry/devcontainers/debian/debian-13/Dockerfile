@@ -23,5 +23,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     tig \
     && apt-get autoremove -y && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /home/vscode/.npm-global \
     && npm install -g @google/gemini-cli \
-    && curl -fsSL https://fns-cli.afonso.dev/install.sh | sh
+    && curl -fsSL https://fns-cli.afonso.dev/install.sh | sh \
+    && chown -R vscode:vscode /home/vscode/.npm-global /home/vscode/.npm
