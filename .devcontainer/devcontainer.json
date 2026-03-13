@@ -25,7 +25,8 @@
       "extensions": [
         "EditorConfig.EditorConfig",
         "esbenp.prettier-vscode",
-        "mkhl.shfmt"
+        "mkhl.shfmt",
+        "google.gemini-cli-vscode-ide-companion"
       ]
     }
   },
