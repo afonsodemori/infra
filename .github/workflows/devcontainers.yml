@@ -58,6 +58,7 @@ jobs:
     if: needs.init.outputs.execute_debian == 'true'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-devcontainer
         with:
           make_cmd: "devcontainers/debian-13/build"
@@ -80,6 +81,7 @@ jobs:
       )
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-devcontainer
         with:
           make_cmd: "devcontainers/node-24/build"
@@ -102,6 +104,7 @@ jobs:
       )
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-devcontainer
         with:
           make_cmd: "devcontainers/go-1-26/build"
