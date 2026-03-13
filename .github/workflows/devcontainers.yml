@@ -6,73 +6,106 @@ on:
       target:
         description: "Select the image to build"
         required: true
-        # default: "all"
         type: choice
         options:
-          # - all
           - ""
-          - debian-13
-          - node-24
-          - go-1-26
+          - "debian-13 (only)"
+          - "debian-13 (downstream)"
+          - "node-24"
+          - "go-1-26"
 
 permissions:
   contents: read
   packages: write
 
 jobs:
-  build:
+  init:
+    name: Initialization
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - id: debian-13
-            image_var: DEVCONTAINERS_DEBIAN_IMAGE_NAME
-            make_cmd: devcontainers/debian-13/build
-          - id: node-24
-            image_var: DEVCONTAINERS_NODE_IMAGE_NAME
-            make_cmd: devcontainers/node-24/build
-          - id: go-1-26
-            image_var: DEVCONTAINERS_GOLANG_IMAGE_NAME
-            make_cmd: devcontainers/go-1-26/build
-
+    outputs:
+      tag_date: ${{ steps.tags.outputs.tag_date }}
+      tag_commit: ${{ steps.tags.outputs.tag_commit }}
+      execute_debian: ${{ steps.check.outputs.execute_debian }}
+      execute_node: ${{ steps.check.outputs.execute_node }}
+      execute_go: ${{ steps.check.outputs.execute_go }}
     steps:
-      - name: Check if should run
-        id: check
-        shell: bash
+      - name: Validate target
         run: |
-          if [[ "${{ github.event.inputs.target }}" == "all" || "${{ github.event.inputs.target }}" == "${{ matrix.id }}" ]]; then
-            echo "execute=true" >> $GITHUB_OUTPUT
-          else
-            echo "execute=false" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event.inputs.target }}" == "" ]]; then
+            echo "Error: target cannot be empty"
+            exit 1
           fi
 
       - uses: actions/checkout@v4
-        if: steps.check.outputs.execute == 'true'
-
-      - name: Set up Docker Buildx
-        if: steps.check.outputs.execute == 'true'
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GHCR
-        if: steps.check.outputs.execute == 'true'
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set tags
-        if: steps.check.outputs.execute == 'true'
+        id: tags
         run: |
-          echo "TAG_DATE=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
-          echo "TAG_COMMIT=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "tag_date=$(date +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
+          echo "tag_commit=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Build ${{ matrix.id }} devcontainer
-        if: steps.check.outputs.execute == 'true'
+      - name: Check execution plan
+        id: check
         run: |
-          make ${{ matrix.make_cmd }} \
-            TAG_DATE="${{ env.TAG_DATE }}" \
-            TAG_COMMIT="${{ env.TAG_COMMIT }}" \
-            IMAGE_NAME="${{ vars[matrix.image_var] }}" \
-            DEVCONTAINERS_IMAGE_PLATFORMS="${{ vars.DEVCONTAINERS_IMAGE_PLATFORMS }}"
+          TARGET="${{ github.event.inputs.target }}"
+          echo "execute_debian=$([[ "$TARGET" == "debian-13 (only)" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+          echo "execute_node=$([[ "$TARGET" == "node-24" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+          echo "execute_go=$([[ "$TARGET" == "go-1-26" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+
+  debian-13:
+    name: Build debian-13
+    needs: init
+    if: needs.init.outputs.execute_debian == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/build-devcontainer
+        with:
+          make_cmd: "devcontainers/debian-13/build"
+          image_name: ${{ vars.DEVCONTAINERS_DEBIAN_IMAGE_NAME }}
+          image_platforms: ${{ vars.DEVCONTAINERS_IMAGE_PLATFORMS }}
+          tag_date: ${{ needs.init.outputs.tag_date }}
+          tag_commit: ${{ needs.init.outputs.tag_commit }}
+
+  node-24:
+    name: Build node-24
+    needs: [init, debian-13]
+    if: |
+      always() &&
+      needs.init.result == 'success' &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.event.inputs.target == 'node-24' ||
+        (github.event.inputs.target == 'debian-13 (downstream)' && needs.debian-13.result == 'success')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/build-devcontainer
+        with:
+          make_cmd: "devcontainers/node-24/build"
+          image_name: ${{ vars.DEVCONTAINERS_NODE_IMAGE_NAME }}
+          image_platforms: ${{ vars.DEVCONTAINERS_IMAGE_PLATFORMS }}
+          tag_date: ${{ needs.init.outputs.tag_date }}
+          tag_commit: ${{ needs.init.outputs.tag_commit }}
+
+  go-1-26:
+    name: Build go-1-26
+    needs: [init, debian-13]
+    if: |
+      always() &&
+      needs.init.result == 'success' &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled') &&
+      (
+        github.event.inputs.target == 'go-1-26' ||
+        (github.event.inputs.target == 'debian-13 (downstream)' && needs.debian-13.result == 'success')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/build-devcontainer
+        with:
+          make_cmd: "devcontainers/go-1-26/build"
+          image_name: ${{ vars.DEVCONTAINERS_GOLANG_IMAGE_NAME }}
+          image_platforms: ${{ vars.DEVCONTAINERS_IMAGE_PLATFORMS }}
+          tag_date: ${{ needs.init.outputs.tag_date }}
+          tag_commit: ${{ needs.init.outputs.tag_commit }}
