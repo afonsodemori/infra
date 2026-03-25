@@ -25,6 +25,7 @@ services:
       - cadvisor
       - prometheus
       - grafana
+      - psono-production
       - wgeasy
     restart: always
 
@@ -41,6 +42,7 @@ include:
   # Extra tools
   - path: ./docker/compose/compose.certbot.yml
   - path: ./docker/compose/compose.database.yml
+  - path: ./docker/compose/compose.psono-production.yml
   - path: ./docker/compose/compose.wgeasy.yml
   - path: ./docker/compose/monitoring/compose.yml
 
