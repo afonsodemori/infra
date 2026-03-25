@@ -10,7 +10,7 @@ RUN echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/
     && apt-get install -y goreleaser \
     && apt-get autoremove -y && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
-    && curl -fsSL https://go.dev/dl/go1.26.1.linux-amd64.tar.gz | tar -C /usr/local -xzf -
+    && curl -fsSL https://go.dev/dl/go1.26.1.linux-arm64.tar.gz | tar -C /usr/local -xzf -
 
 ENV GOROOT=/usr/local/go
 ENV GOPATH=/home/vscode/go
