@@ -1,4 +1,4 @@
--include .env
+include .env
 
 help:
 	@echo '@TODO'
@@ -8,25 +8,25 @@ help:
 ##########
 
 docker/update-images:
-	@docker compose pull
-	@docker compose up -d --remove-orphans
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml pull
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans
 
 docker/force-recreate:
-	@docker compose up -d --remove-orphans --force-recreate
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans --force-recreate
 
 nginx-reload:
-	@docker compose exec nginx nginx -t && \
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml exec nginx nginx -t && \
 	docker compose exec nginx nginx -s reload && \
 	echo "Nginx reloaded."
 
 up:
-	@docker compose up -d --remove-orphans
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans
 
 logs:
-	@docker compose logs -f
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml logs -f
 
 down:
-	@docker compose down --remove-orphans
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml down --remove-orphans
 
 ####################
 ## devcontainers
