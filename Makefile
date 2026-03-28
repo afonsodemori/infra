@@ -19,8 +19,14 @@ nginx-reload:
 	docker compose exec nginx nginx -s reload && \
 	echo "Nginx reloaded."
 
+deploy-default:
+	@bin/create-server-health-check.sh
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml cp ./docker/nginx/html/404.html nginx:/usr/share/nginx/html
+	@docker compose -f compose.$(SERVER_HOSTNAME).yml cp /tmp/health.json nginx:/usr/share/nginx/html
+
 up:
 	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans
+	@make deploy-default
 
 logs:
 	@docker compose -f compose.$(SERVER_HOSTNAME).yml logs -f
