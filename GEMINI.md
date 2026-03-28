@@ -12,7 +12,7 @@ This repository manages the infrastructure for several personal and production e
 
 - `bin/`: Shell scripts for system installation (`install-packages.sh`), data directory setup (`install-data-dirs.sh`), crontab installation (`install-crontab.sh`), and PostgreSQL backups (`backup-pg-export.sh`).
 - `docker/compose/`: Individual Docker Compose files for each service and environment, included in the main `compose.yml`.
-- `docker/nginx/`: Nginx configuration including site-specific `conf.d` files and reusable snippets.
+- `docker/nginx/`: Nginx configuration including site-specific `sites-available` files and reusable snippets.
 - `config/`: System configuration files like `crontab`, `.vimrc`, and shell `profile`.
 
 ## Setup and Management
