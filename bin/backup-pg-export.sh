@@ -9,7 +9,8 @@ BACKUP_ROOT="${PG_BACKUP_BACKUP_DIR:-./backups}"
 RETENTION_DAYS=${PG_BACKUP_RETENTION_DAYS:-7}
 
 TIMESTAMP="$(date -u +%Y%m%d_%H%M%S)"
-DOCKER_COMPOSE="docker compose exec -T ${COMPOSE_SERVICE}"
+# TODO: compose file MUST use .env
+DOCKER_COMPOSE="docker compose -f compose.ion-vps.yml exec -T ${COMPOSE_SERVICE}"
 
 mkdir -p "${BACKUP_ROOT}/${TIMESTAMP}"
 

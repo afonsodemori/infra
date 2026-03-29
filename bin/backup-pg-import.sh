@@ -7,7 +7,8 @@ source .env
 COMPOSE_SERVICE="${PG_BACKUP_COMPOSE_SERVICE:-postgres}"
 BACKUP_ROOT="${PG_BACKUP_BACKUP_DIR:-./backups}"
 
-DOCKER_COMPOSE="docker compose exec -T ${COMPOSE_SERVICE}"
+# TODO: compose file MUST use .env
+DOCKER_COMPOSE="docker compose -f compose.ion-vps.yml exec -T ${COMPOSE_SERVICE}"
 
 if [[ $# -ne 1 ]]; then
   echo "Usage: $0 <timestamp>"
