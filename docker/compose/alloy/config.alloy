@@ -1,0 +1,33 @@
+discovery.docker "containers" {
+  host = "unix:///var/run/docker.sock"
+}
+
+discovery.relabel "docker_logs_formatted" {
+  targets = discovery.docker.containers.targets
+
+  rule {
+    target_label = "server"
+    replacement  = sys.env("NODE_NAME")
+  }
+
+  rule {
+    source_labels = ["__meta_docker_container_label_com_docker_compose_service"]
+    target_label  = "service_name"
+  }
+}
+
+loki.source.docker "default" {
+  host = "unix:///var/run/docker.sock"
+  targets = discovery.relabel.docker_logs_formatted.output
+  forward_to = [loki.write.grafana_cloud.receiver]
+}
+
+loki.write "grafana_cloud" {
+  endpoint {
+    url = sys.env("GRAFANA_LOKI_ENDPOINT")
+    basic_auth {
+      username = sys.env("GRAFANA_USERNAME")
+      password = sys.env("GRAFANA_API_TOKEN")
+    }
+  }
+}

@@ -1,0 +1,14 @@
+services:
+  alloy:
+    image: grafana/alloy:latest
+    volumes:
+      - ./docker/compose/alloy/config.alloy:/etc/alloy/config.alloy
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - NODE_NAME=${SERVER_HOSTNAME:?}
+      - GRAFANA_LOKI_ENDPOINT=${ALLOY_GRAFANA_LOKI_ENDPOINT:?}
+      - GRAFANA_USERNAME=${ALLOY_GRAFANA_USERNAME:?}
+      - GRAFANA_API_TOKEN=${ALLOY_GRAFANA_API_TOKEN:?}
+    command: run /etc/alloy/config.alloy
+    restart: unless-stopped
