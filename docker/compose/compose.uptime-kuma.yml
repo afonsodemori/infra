@@ -1,0 +1,14 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:${KUMA_TAG:-latest}
+    volumes:
+      - ${DATA_DIR:?}/uptime-kuma:/app/data
+    environment:
+      - TZ=UTC
+      - UMASK=0022
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: always

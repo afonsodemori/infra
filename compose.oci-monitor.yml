@@ -12,3 +12,6 @@ services:
       - "80:80"
       - "443:443"
     restart: always
+
+include:
+  - path: ./docker/compose/compose.uptime-kuma.yml
