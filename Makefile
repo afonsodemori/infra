@@ -1,5 +1,7 @@
 include .env
 
+COMPOSE = docker compose -f compose.$(SERVER_HOSTNAME).yml
+
 help:
 	@echo '@TODO'
 
@@ -8,31 +10,31 @@ help:
 ##########
 
 docker/update-images:
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml pull
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans
+	@$(COMPOSE) pull
+	@$(COMPOSE) up -d --remove-orphans
 
 docker/force-recreate:
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans --force-recreate
+	@$(COMPOSE) up -d --remove-orphans --force-recreate
 
 nginx-reload:
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml exec nginx nginx -t && \
-	docker compose exec nginx nginx -s reload && \
+	@$(COMPOSE) exec nginx nginx -t && \
+	$(COMPOSE) exec nginx nginx -s reload && \
 	echo "Nginx reloaded."
 
 deploy-default:
 	@bin/create-server-health-check.sh
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml cp ./docker/nginx/html/404.html nginx:/usr/share/nginx/html
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml cp /tmp/health.json nginx:/usr/share/nginx/html
+	@$(COMPOSE) cp ./docker/nginx/html/404.html nginx:/usr/share/nginx/html
+	@$(COMPOSE) cp /tmp/health.json nginx:/usr/share/nginx/html
 
 up:
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml up -d --remove-orphans
+	@$(COMPOSE) up -d --remove-orphans
 	@make deploy-default
 
 logs:
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml logs -f
+	@$(COMPOSE) logs -f
 
 down:
-	@docker compose -f compose.$(SERVER_HOSTNAME).yml down --remove-orphans
+	@$(COMPOSE) down --remove-orphans
 
 ####################
 ## devcontainers
