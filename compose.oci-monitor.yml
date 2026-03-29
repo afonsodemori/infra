@@ -6,7 +6,6 @@ services:
       - ./docker/nginx/snippets:/etc/nginx/snippets:ro
       - ./docker/nginx/sites-available:/etc/nginx/sites-available:ro
       - ./docker/nginx/sites-enabled:/etc/nginx/conf.d:ro
-      # - ${DATA_DIR:?}/nginx/logs:/var/log/nginx -- TODO: Re-enable
       - ${DATA_DIR:?}/letsencrypt:/etc/letsencrypt:ro # TODO: Change volume
     ports:
       - "80:80"
@@ -15,3 +14,4 @@ services:
 
 include:
   - path: ./docker/compose/compose.uptime-kuma.yml
+  - path: ./docker/compose/compose.alloy.yml
