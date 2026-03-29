@@ -10,7 +10,13 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - afonsodev-production-api
+      - afonsodev-production-web
     restart: always
 
 include:
+  # Application services
+  - path: ./docker/compose/compose.afonsodev-production.yml
+  # Extra tools
   - path: ./docker/compose/compose.alloy.yml

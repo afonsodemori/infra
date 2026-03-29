@@ -12,8 +12,6 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - afonsodev-production-api
-      - afonsodev-production-web
       - ephemeral-production-web
       - jrbaena-production-web
       - meteosaucana-production-web
@@ -28,7 +26,6 @@ services:
 
 include:
   # Application services
-  - path: ./docker/compose/compose.afonsodev-production.yml
   - path: ./docker/compose/compose.ephemeral-production.yml
   - path: ./docker/compose/compose.jrbaena-production.yml
   - path: ./docker/compose/compose.meteosaucana-production.yml
