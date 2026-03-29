@@ -22,9 +22,6 @@ services:
       - mycrew-staging-api
       - mycrew-production-api
       - pgadmin
-      - cadvisor
-      - prometheus
-      - grafana
       - psono-production
       - wgeasy
     restart: always
@@ -45,7 +42,6 @@ include:
   - path: ./docker/compose/compose.psono-production.yml
   - path: ./docker/compose/compose.wgeasy.yml
   - path: ./docker/compose/compose.alloy.yml
-  - path: ./docker/compose/monitoring/compose.yml
 
 volumes:
   certbot-data:
