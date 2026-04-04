@@ -13,5 +13,4 @@ services:
     restart: always
 
 include:
-  - path: ./docker/compose/compose.uptime-kuma.yml
   - path: ./docker/compose/compose.alloy.yml
