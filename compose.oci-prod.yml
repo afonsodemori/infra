@@ -13,12 +13,10 @@ services:
     depends_on:
       - afonsodev-production-api
       - afonsodev-production-web
-      - fnscli-production-web
     restart: always
 
 include:
   # Application services
   - path: ./docker/compose/compose.afonsodev-production.yml
-  - path: ./docker/compose/compose.fnscli-production.yml
   # Extra tools
   - path: ./docker/compose/compose.alloy.yml
