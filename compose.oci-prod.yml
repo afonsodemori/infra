@@ -8,7 +8,6 @@ services:
       - ./docker/nginx/sites-enabled:/etc/nginx/conf.d:ro
       - ${DATA_DIR:?}/letsencrypt:/etc/letsencrypt:ro # TODO: Change volume
     ports:
-      - "80:80"
       - "443:443"
     depends_on:
       - afonsodev-production-api
@@ -16,6 +15,8 @@ services:
     restart: always
 
 include:
+  # Database
+  - path: ./docker/compose/compose.database.yml
   # Application services
   - path: ./docker/compose/compose.afonsodev-production.yml
   # Extra tools

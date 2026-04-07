@@ -8,12 +8,15 @@ services:
       - ./docker/nginx/sites-enabled:/etc/nginx/conf.d:ro
       - ${DATA_DIR:?}/letsencrypt:/etc/letsencrypt:ro # TODO: Change volume
     ports:
-      - "80:80"
       - "443:443"
     depends_on:
       - uptime-kuma
     restart: always
 
 include:
+  # Database
+  - path: ./docker/compose/compose.database.yml
+  # Application services
   - path: ./docker/compose/compose.uptime-kuma.yml
+  # Extra tools
   - path: ./docker/compose/compose.alloy.yml

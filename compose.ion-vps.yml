@@ -19,12 +19,13 @@ services:
       - mycrew-test-api
       - mycrew-staging-api
       - mycrew-production-api
-      - pgadmin
       - psono-production
       - wgeasy
     restart: always
 
 include:
+  # Database
+  - path: ./docker/compose/compose.database.yml
   # Application services
   - path: ./docker/compose/compose.ephemeral-production.yml
   - path: ./docker/compose/compose.jrbaena-production.yml
@@ -35,7 +36,6 @@ include:
   - path: ./docker/compose/compose.mycrew-production.yml
   # Extra tools
   - path: ./docker/compose/compose.certbot.yml
-  - path: ./docker/compose/compose.database.yml
   - path: ./docker/compose/compose.psono-production.yml
   - path: ./docker/compose/compose.wgeasy.yml
   - path: ./docker/compose/compose.alloy.yml
