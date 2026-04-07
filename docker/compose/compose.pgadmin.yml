@@ -1,0 +1,12 @@
+services:
+  pgadmin:
+    image: dpage/pgadmin4:${DATABASE_PGADMIN_VERSION:?}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${DATABASE_PGADMIN_EMAIL:?}
+      PGADMIN_DEFAULT_PASSWORD: ${DATABASE_PGADMIN_PASSWORD:?}
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    restart: unless-stopped
+
+volumes:
+  pgadmin:
