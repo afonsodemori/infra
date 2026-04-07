@@ -7,6 +7,7 @@ services:
       - /home/ops/data/psono/settings.yaml:/root/.psono_server/settings.yaml
       - /home/ops/data/psono/client/config.json:/usr/share/nginx/html/config.json
       - /home/ops/data/psono/client/config.json:/usr/share/nginx/html/portal/config.json
+      - ./psono/health.json:/usr/share/nginx/html/health.json
       # logos
       - /home/ops/data/psono/assets/logo.png:/usr/share/nginx/html/img/logo.png
       - /home/ops/data/psono/assets/logo-inverse.png:/usr/share/nginx/html/img/logo-inverse.png
