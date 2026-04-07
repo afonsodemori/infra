@@ -5,6 +5,8 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_POSTGRES_PASSWORD:?}
     volumes:
       - pgdata:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:5432:5432" # host only
     restart: always
 
 volumes:
