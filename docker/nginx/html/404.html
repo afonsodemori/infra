@@ -1,42 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page not found</title>
-  <link rel="icon" href="https://static.afonso.dev/favicon.ico">
-  <style>
-    body {
-      background-color: #0e172b;
-      color: rgba(255, 255, 255, 0.8);
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found</title>
+    <link rel="icon" href="https://static.afonso.dev/favicon.ico" />
+    <style>
+      body {
+        background-color: #0e172b;
+        color: rgba(255, 255, 255, 0.8);
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 1rem;
+      }
 
-    h1 {
-      font-size: 50px;
-    }
+      h1 {
+        font-size: 50px;
+      }
 
-    p {
-      font-size: 20px;
-    }
+      p {
+        font-size: 20px;
+      }
 
-    a {
-      color: #00c951;
-      text-decoration: none;
-      border-bottom: 1px solid;
-    }
+      a {
+        color: #00c951;
+        text-decoration: none;
+        border-bottom: 1px solid;
+      }
 
-    a:hover {
-      text-decoration: none;
-      border-bottom: 2px solid;
-    }
-  </style>
-</head>
-<body>
-<h1>Page not found</h1>
-<p>Oops! The page you are looking for does not exist.</p>
-<p>Visit <a href="https://afonso.dev">afonso.dev</a> instead.</p>
-</body>
+      a:hover {
+        text-decoration: none;
+        border-bottom: 2px solid;
+      }
+
+      hr {
+        margin: 5rem auto;
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      footer {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Page not found</h1>
+    <p>Oops! The page you are looking for does not exist.</p>
+    <p>Visit <a href="https://afonso.dev">afonso.dev</a> instead.</p>
+    <hr />
+    <footer>{HOSTNAME} · <a href="https://status.afonso.dev">status</a></footer>
+  </body>
 </html>

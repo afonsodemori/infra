@@ -16,15 +16,18 @@ docker/update-images:
 docker/force-recreate:
 	@$(COMPOSE) up -d --remove-orphans --force-recreate
 
+deploy-default:
+	@bin/create-server-health-check.sh
+	@sed "s/{HOSTNAME}/$(SERVER_HOSTNAME)/g" ./docker/nginx/html/404.html > /tmp/404_processed.html
+	@$(COMPOSE) cp /tmp/404_processed.html nginx:/usr/share/nginx/html/404.html
+	@$(COMPOSE) cp /tmp/health.json nginx:/usr/share/nginx/html
+
 nginx-reload:
 	@$(COMPOSE) exec nginx nginx -t && \
 	$(COMPOSE) exec nginx nginx -s reload && \
 	echo "Nginx reloaded."
+	@make deploy-default
 
-deploy-default:
-	@bin/create-server-health-check.sh
-	@$(COMPOSE) cp ./docker/nginx/html/404.html nginx:/usr/share/nginx/html
-	@$(COMPOSE) cp /tmp/health.json nginx:/usr/share/nginx/html
 
 up:
 	@$(COMPOSE) up -d --remove-orphans
