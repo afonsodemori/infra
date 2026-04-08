@@ -6,6 +6,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${DATABASE_PGADMIN_PASSWORD:?}
     volumes:
       - pgadmin:/var/lib/pgadmin
+      - ./pgadmin/health.json:/pgadmin4/pgadmin/static/health.json:ro
     restart: unless-stopped
 
 volumes:
