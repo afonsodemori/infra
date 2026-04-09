@@ -1,4 +1,4 @@
-include .env
+-include .env
 
 COMPOSE = docker compose -f compose.$(SERVER_HOSTNAME).yml
 
