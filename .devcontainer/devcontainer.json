@@ -9,7 +9,7 @@
     "source=${localEnv:HOME}/.fns-cli,target=/home/vscode/.fns-cli,type=bind,consistency=cached",
     "source=${localEnv:HOME}/.bash_history,target=/home/vscode/.bash_history,type=bind,consistency=cached",
     // devtools
-    "source=gemini,target=/home/vscode/.gemini,type=volume",
+    "source=claude,target=/home/vscode/.claude,type=volume",
     // source code
     "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached"
   ],
@@ -26,7 +26,7 @@
         "EditorConfig.EditorConfig",
         "esbenp.prettier-vscode",
         "mkhl.shfmt",
-        "google.gemini-cli-vscode-ide-companion"
+        "eamodio.gitlens"
       ]
     }
   },

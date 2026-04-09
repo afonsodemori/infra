@@ -28,7 +28,6 @@ nginx-reload:
 	echo "Nginx reloaded."
 	@make deploy-default
 
-
 up:
 	@$(COMPOSE) up -d --remove-orphans
 	@make deploy-default
