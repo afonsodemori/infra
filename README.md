@@ -2,6 +2,8 @@
 
 Infrastructure-as-code for managing a multi-service production environment using Docker Compose and Nginx as a reverse proxy. Supports multiple deployment targets with shared service definitions.
 
+Service status at: <https://status.afonso.dev>
+
 ## Environments
 
 | Compose file              | Target                         |

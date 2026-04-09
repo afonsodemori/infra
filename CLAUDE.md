@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Infrastructure-as-code repository for managing a multi-service production environment using Docker Compose and Nginx as a reverse proxy. Supports multiple deployment targets (Ion VPS, Oracle Cloud) with shared service definitions.
+Infrastructure-as-code repository for managing a multi-service production environment using Docker Compose and Nginx as a reverse proxy. Supports multiple deployment targets (Ionos VPS, Oracle Cloud) with shared service definitions.
 
 ## Common Commands
 
@@ -45,12 +45,12 @@ bin/install-packages.sh        # Install host packages
 
 Each environment has a top-level compose file that wires everything together:
 
-| File                      | Environment                  |
-| ------------------------- | ---------------------------- |
-| `compose.ion-vps.yml`     | Ion VPS (primary production) |
-| `compose.oci-prod.yml`    | Oracle Cloud Production      |
-| `compose.oci-staging.yml` | Oracle Cloud Staging         |
-| `compose.oci-labs.yml`    | Oracle Cloud Labs            |
+| File                      | Environment                    |
+| ------------------------- | ------------------------------ |
+| `compose.ion-vps.yml`     | Ionos VPS (primary production) |
+| `compose.oci-prod.yml`    | Oracle Cloud Production        |
+| `compose.oci-staging.yml` | Oracle Cloud Staging           |
+| `compose.oci-labs.yml`    | Oracle Cloud Labs              |
 
 These use Docker Compose `include:` to pull in individual service definitions from `docker/compose/`.
 
