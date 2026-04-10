@@ -126,4 +126,4 @@ The workflow (`.github/workflows/devcontainers.yml`) is manually triggered and s
 
 ## License
 
-See [LICENSE](LICENSE).
+[MIT](LICENSE)
