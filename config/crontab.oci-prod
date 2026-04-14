@@ -1,0 +1,3 @@
+# Documentation at https://crontab.guru
+# minute - hour - day of month - month - day of week - command
+37 3 * * 0 cd /home/ops/infra/ && bin/certbot.sh renew

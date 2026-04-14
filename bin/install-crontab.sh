@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
 set -e
-
 source .env
 
 home_dir="${INFRA_DIR:?}"
+hostname="${SERVER_HOSTNAME:?}"
 
-crontab "$home_dir/config/crontab"
+crontab "$home_dir/config/crontab.$hostname"
 
 echo "Installed crontab:"
 crontab -l
