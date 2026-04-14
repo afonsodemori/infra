@@ -1,3 +1,4 @@
 # Documentation at https://crontab.guru
 # minute - hour - day of month - month - day of week - command
-11 6 13 * * cd /home/ops/infra/ && bin/certbot.sh renew
+11  6  13  *  * cd /home/ops/infra/ && bin/certbot.sh renew
+ 7  3   *  *  * cd /home/ops/infra/ && bin/postgres-backup.sh >> /home/ops/data/crontab/postgres-backup.log 2>&1
