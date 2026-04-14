@@ -1,15 +1,18 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/bash
 
-[ ${SERVER_HOSTNAME:?} == "ion-vps" ] || { echo "SERVER_HOSTNAME is not set to ion-vps, exiting."; exit 1; }
+set -e
+source .env
 
 cmd="$1"
+hostname="${SERVER_HOSTNAME:?}"
+compose="docker compose -f compose.$hostname.yml"
 
-docker compose -f compose.ion-vps.yml run --rm -i certbot "$@"
+$compose run --rm -i certbot "$@"
 
 case "$cmd" in
   new|renew)
-    docker compose -f compose.ion-vps.yml run --rm -T --entrypoint=/bin/sh certbot -c 'chown -R 65532:65532 /etc/letsencrypt'
+    # nginx user is 65532
+    $compose run --rm -T --entrypoint=/bin/sh certbot -c 'chown -R 65532:65532 /etc/letsencrypt'
     make nginx-reload
     ;;
   new|renew|revoke|delete)

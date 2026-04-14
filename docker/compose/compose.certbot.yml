@@ -6,9 +6,9 @@ services:
       CLOUDFLARE_API_TOKEN: ${CERTBOT_CLOUDFLARE_API_TOKEN:?}
       PROPAGATION_SECONDS: ${CERTBOT_PROPAGATION_SECONDS:?}
     volumes:
-      - certbot-data:/etc/letsencrypt
-      - certbot-logs:/var/log/letsencrypt
-      - ./certbot/entrypoint.sh:/entrypoint.sh:ro
+      - ${DATA_DIR:?}/letsencrypt/data:/etc/letsencrypt
+      - ${DATA_DIR:?}/letsencrypt/logs:/var/log/letsencrypt
+      - ${INFRA_DIR:?}/docker/compose/certbot/entrypoint.sh:/entrypoint.sh:ro
     entrypoint: ["/bin/sh", "/entrypoint.sh"]
     profiles:
       - ondemand

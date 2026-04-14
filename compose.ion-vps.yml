@@ -40,5 +40,4 @@ include:
   - path: ./docker/compose/compose.alloy.yml
 
 volumes:
-  certbot-data:
-  certbot-logs:
+  certbot-data: # only for ion-vps
