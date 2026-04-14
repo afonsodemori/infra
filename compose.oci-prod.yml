@@ -11,7 +11,6 @@ services:
       - "443:443"
     depends_on:
       - afonsodev-production-api
-      - afonsodev-production-web
     restart: always
 
 include:

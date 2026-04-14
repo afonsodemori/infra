@@ -10,7 +10,3 @@ services:
       CONTACT_FROM: ${AFONSODEV_PRODUCTION_API_CONTACT_FROM:?}
       CONTACT_TO: ${AFONSODEV_PRODUCTION_API_CONTACT_TO:?}
     restart: unless-stopped
-
-  afonsodev-production-web:
-    image: ghcr.io/afonsodemori/afonsodev-web:${AFONSODEV_PRODUCTION_WEB_TAG:?}
-    restart: unless-stopped
