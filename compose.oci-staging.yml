@@ -10,6 +10,7 @@ services:
     ports:
       - "443:443"
     depends_on:
+      - afonsodev-preview-api
       - pgadmin
     restart: always
 
@@ -17,6 +18,7 @@ include:
   # Database
   - path: ./docker/compose/compose.database.yml
   # Application services
+  - path: ./docker/compose/compose.afonsodev-preview.yml
   - path: ./docker/compose/compose.pgadmin.yml
   # Extra tools
   - path: ./docker/compose/compose.alloy.yml
