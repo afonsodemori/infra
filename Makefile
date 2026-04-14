@@ -12,9 +12,11 @@ help:
 docker/update-images:
 	@$(COMPOSE) pull
 	@$(COMPOSE) up -d --remove-orphans
+	@make deploy-default
 
 docker/force-recreate:
 	@$(COMPOSE) up -d --remove-orphans --force-recreate
+	@make deploy-default
 
 deploy-default:
 	@bin/create-server-health-check.sh
