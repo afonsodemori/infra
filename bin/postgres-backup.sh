@@ -58,7 +58,7 @@ log "Backup complete: ${backup_dir}/${timestamp}.tgz"
 
 # ---- Upload to R2 ----
 wrangler r2 object put --remote \
-  backups/postgres_${server_hostname}_${timestamp}.tgz \
+  backup/${timestamp}_postgres_${server_hostname}.tgz \
   --file "${backup_dir}/${timestamp}.tgz"
 
 # TODO: retention policy for R2 objects (list + delete) and local tarballs
