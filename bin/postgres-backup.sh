@@ -3,13 +3,15 @@
 set -Eeuo pipefail
 source .env
 
+# TODO: find a better way to ensure the correct node version is used for wrangler without relying on hardcoded paths
+export PATH="/home/ops/.nvm/versions/node/v24.14.1/bin:${PATH}"
+
 server_hostname="${SERVER_HOSTNAME:?}"
 compose_service="${PG_BACKUP_COMPOSE_SERVICE:-postgres}"
 backup_dir="${PG_BACKUP_BACKUP_DIR:-./backups}"
 retention_days="${PG_BACKUP_RETENTION_DAYS:-7}"
 
 timestamp="$(date -u +%Y%m%d-%H%M%S)"
-# TODO: compose file MUST use .env
 compose="docker compose -f compose.${server_hostname}.yml exec -T ${compose_service}"
 
 mkdir -p "${backup_dir}/${timestamp}"
