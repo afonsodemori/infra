@@ -11,6 +11,7 @@ services:
       - "443:443"
     depends_on:
       - afonsodev-production-api
+      - psono-production
     restart: always
 
 include:
@@ -18,6 +19,7 @@ include:
   - path: ./docker/compose/compose.database.yml
   # Application services
   - path: ./docker/compose/compose.afonsodev-production.yml
+  - path: ./docker/compose/compose.psono-production.yml
   # Extra tools
   - path: ./docker/compose/compose.alloy.yml
   - path: ./docker/compose/compose.certbot.yml

@@ -14,7 +14,6 @@ services:
       - jrbaena-production-web
       - meteosaucana-production-web
       - mycrew-production-api
-      - psono-production
       - wgeasy
     restart: always
 
@@ -27,6 +26,5 @@ include:
   - path: ./docker/compose/compose.mycrew-production.yml
   # Extra tools
   - path: ./docker/compose/compose.certbot.yml
-  - path: ./docker/compose/compose.psono-production.yml
   - path: ./docker/compose/compose.wgeasy.yml
   - path: ./docker/compose/compose.alloy.yml
