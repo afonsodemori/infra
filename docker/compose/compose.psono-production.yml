@@ -4,27 +4,27 @@ services:
     sysctls:
       - net.core.somaxconn=65535
     volumes:
-      - /home/ops/data/psono/settings.yaml:/root/.psono_server/settings.yaml
-      - /home/ops/data/psono/client/config.json:/usr/share/nginx/html/config.json
-      - /home/ops/data/psono/client/config.json:/usr/share/nginx/html/portal/config.json
+      - ${DATA_DIR:?}/psono/settings.yaml:/root/.psono_server/settings.yaml
+      - ${DATA_DIR:?}/psono/client/config.json:/usr/share/nginx/html/config.json
+      - ${DATA_DIR:?}/psono/client/config.json:/usr/share/nginx/html/portal/config.json
       - ./psono/health.json:/usr/share/nginx/html/health.json
       # logos
-      - /home/ops/data/psono/assets/logo.png:/usr/share/nginx/html/img/logo.png
-      - /home/ops/data/psono/assets/logo-inverse.png:/usr/share/nginx/html/img/logo-inverse.png
-      - /home/ops/data/psono/assets/logo.png:/root/psono/static/email/logo.png
+      - ${DATA_DIR:?}/psono/assets/logo.png:/usr/share/nginx/html/img/logo.png
+      - ${DATA_DIR:?}/psono/assets/logo-inverse.png:/usr/share/nginx/html/img/logo-inverse.png
+      - ${DATA_DIR:?}/psono/assets/logo.png:/root/psono/static/email/logo.png
       # icons
-      - /home/ops/data/psono/assets/192.png:/usr/share/nginx/html/img/android-chrome-192x192.png
-      - /home/ops/data/psono/assets/512.png:/usr/share/nginx/html/img/android-chrome-512x512.png
-      - /home/ops/data/psono/assets/180-apple.png:/usr/share/nginx/html/img/apple-touch-icon.png
-      - /home/ops/data/psono/assets/16.png:/usr/share/nginx/html/img/favicon-16x16.png
-      - /home/ops/data/psono/assets/32.png:/usr/share/nginx/html/img/favicon-32x32.png
-      - /home/ops/data/psono/assets/favicon.ico:/usr/share/nginx/html/favicon.ico
-      - /home/ops/data/psono/assets/128.png:/usr/share/nginx/html/img/icon-128.png
-      - /home/ops/data/psono/assets/16.png:/usr/share/nginx/html/img/icon-16.png
-      - /home/ops/data/psono/assets/32.png:/usr/share/nginx/html/img/icon-32.png
-      - /home/ops/data/psono/assets/48.png:/usr/share/nginx/html/img/icon-48.png
-      - /home/ops/data/psono/assets/64.png:/usr/share/nginx/html/img/icon-64.png
-      - /home/ops/data/psono/assets/180-apple.png:/usr/share/nginx/html/img/mstile-150x150.png
+      - ${DATA_DIR:?}/psono/assets/192.png:/usr/share/nginx/html/img/android-chrome-192x192.png
+      - ${DATA_DIR:?}/psono/assets/512.png:/usr/share/nginx/html/img/android-chrome-512x512.png
+      - ${DATA_DIR:?}/psono/assets/180-apple.png:/usr/share/nginx/html/img/apple-touch-icon.png
+      - ${DATA_DIR:?}/psono/assets/16.png:/usr/share/nginx/html/img/favicon-16x16.png
+      - ${DATA_DIR:?}/psono/assets/32.png:/usr/share/nginx/html/img/favicon-32x32.png
+      - ${DATA_DIR:?}/psono/assets/favicon.ico:/usr/share/nginx/html/favicon.ico
+      - ${DATA_DIR:?}/psono/assets/128.png:/usr/share/nginx/html/img/icon-128.png
+      - ${DATA_DIR:?}/psono/assets/16.png:/usr/share/nginx/html/img/icon-16.png
+      - ${DATA_DIR:?}/psono/assets/32.png:/usr/share/nginx/html/img/icon-32.png
+      - ${DATA_DIR:?}/psono/assets/48.png:/usr/share/nginx/html/img/icon-48.png
+      - ${DATA_DIR:?}/psono/assets/64.png:/usr/share/nginx/html/img/icon-64.png
+      - ${DATA_DIR:?}/psono/assets/180-apple.png:/usr/share/nginx/html/img/mstile-150x150.png
     depends_on:
       - postgres
     restart: unless-stopped
