@@ -11,8 +11,6 @@ services:
     ports:
       - "443:443"
     depends_on:
-      - jrbaena-production-web
-      - meteosaucana-production-web
       - mycrew-production-api
       - wgeasy
     restart: always
@@ -21,8 +19,6 @@ include:
   # Database
   - path: ./docker/compose/compose.database.yml
   # Application services
-  - path: ./docker/compose/compose.jrbaena-production.yml
-  - path: ./docker/compose/compose.meteosaucana-production.yml
   - path: ./docker/compose/compose.mycrew-production.yml
   # Extra tools
   - path: ./docker/compose/compose.certbot.yml
