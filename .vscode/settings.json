@@ -8,5 +8,8 @@
     ".env.oci-prod.example": "dotenv",
     ".env.oci-staging.example": "dotenv"
   },
-  "prettier.useEditorConfig": true
+  "prettier.useEditorConfig": true,
+  "[shellscript]": {
+    "editor.defaultFormatter": "mkhl.shfmt"
+  }
 }

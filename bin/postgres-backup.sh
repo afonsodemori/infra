@@ -38,19 +38,19 @@ if [[ -z "${db_list}" ]]; then
 fi
 
 log "Databases detected:"
-while IFS= read -r db; do log "  - ${db}"; done <<< "${db_list}"
+while IFS= read -r db; do log "  - ${db}"; done <<<"${db_list}"
 
 # ---- Dump global roles ----
 log "Dumping global roles (excluding postgres)..."
-$compose pg_dumpall -U postgres --globals-only \
-  | { grep -vE '^(CREATE|ALTER) ROLE postgres( |;)' || true; } \
-  > "${backup_dir}/${timestamp}/00_globals.sql"
+$compose pg_dumpall -U postgres --globals-only |
+  { grep -vE '^(CREATE|ALTER) ROLE postgres( |;)' || true; } \
+    >"${backup_dir}/${timestamp}/00_globals.sql"
 
 # ---- Dump each database ----
 while IFS= read -r db; do
   log "Dumping database: ${db}"
-  $compose pg_dump -U postgres -Fc -d "${db}" > "${backup_dir}/${timestamp}/${db}.dump"
-done <<< "${db_list}"
+  $compose pg_dump -U postgres -Fc -d "${db}" >"${backup_dir}/${timestamp}/${db}.dump"
+done <<<"${db_list}"
 
 # ---- Generate tarball ----
 log "Compressing backup directory..."
