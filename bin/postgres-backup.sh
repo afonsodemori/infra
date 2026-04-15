@@ -61,13 +61,12 @@ wrangler r2 object put --remote \
   backup/${timestamp}_postgres_${server_hostname}.tgz \
   --file "${backup_dir}/${timestamp}.tgz"
 
-# TODO: retention policy for R2 objects (list + delete) and local tarballs
 # ---- Retention policy ----
-# log "Cleaning backups older than ${retention_days} days..."
+log "Cleaning local tarballs older than ${retention_days} days..."
 
-# find "${backup_dir}" \
-#   -mindepth 1 -maxdepth 1 -type d \
-#   -mtime +${retention_days} \
-#   -exec rm -rf {} \;
+find "${backup_dir}" \
+  -mindepth 1 -maxdepth 1 -type f -name "*.tgz" \
+  -mtime +${retention_days} \
+  -delete
 
-# log "Backup finished successfully."
+log "Backup finished successfully."
