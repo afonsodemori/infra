@@ -49,7 +49,7 @@ $compose pg_dumpall -U postgres --globals-only |
 # ---- Dump each database ----
 while IFS= read -r db; do
   log "Dumping database: ${db}"
-  $compose pg_dump -U postgres -Fc -d "${db}" >"${backup_dir}/${timestamp}/${db}.dump"
+  $compose pg_dump -U postgres -Fc -d "${db}" >"${backup_dir}/${timestamp}/${db}.dump" </dev/null
 done <<<"${db_list}"
 
 # ---- Generate tarball ----
