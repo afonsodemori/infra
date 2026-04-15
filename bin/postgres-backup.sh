@@ -38,11 +38,13 @@ if [[ -z "${db_list}" ]]; then
 fi
 
 log "Databases detected:"
-echo "${db_list}"
+while IFS= read -r db; do log "  - ${db}"; done <<< "${db_list}"
 
 # ---- Dump global roles ----
-log "Dumping global roles..."
-$compose pg_dumpall -U postgres --globals-only > "${backup_dir}/${timestamp}/00_globals.sql"
+log "Dumping global roles (excluding postgres)..."
+$compose pg_dumpall -U postgres --globals-only \
+  | grep -vE '^(CREATE|ALTER) ROLE postgres( |;)' \
+  > "${backup_dir}/${timestamp}/00_globals.sql"
 
 # ---- Dump each database ----
 for db in ${db_list}; do
@@ -57,6 +59,7 @@ rm -rf "${backup_dir}/${timestamp}"
 log "Backup complete: ${backup_dir}/${timestamp}.tgz"
 
 # ---- Upload to R2 ----
+log "Uploading to R2..."
 wrangler r2 object put --remote \
   backup/${timestamp}_postgres_${server_hostname}.tgz \
   --file "${backup_dir}/${timestamp}.tgz"
