@@ -43,14 +43,14 @@ while IFS= read -r db; do log "  - ${db}"; done <<< "${db_list}"
 # ---- Dump global roles ----
 log "Dumping global roles (excluding postgres)..."
 $compose pg_dumpall -U postgres --globals-only \
-  | grep -vE '^(CREATE|ALTER) ROLE postgres( |;)' \
+  | { grep -vE '^(CREATE|ALTER) ROLE postgres( |;)' || true; } \
   > "${backup_dir}/${timestamp}/00_globals.sql"
 
 # ---- Dump each database ----
-for db in ${db_list}; do
+while IFS= read -r db; do
   log "Dumping database: ${db}"
   $compose pg_dump -U postgres -Fc -d "${db}" > "${backup_dir}/${timestamp}/${db}.dump"
-done
+done <<< "${db_list}"
 
 # ---- Generate tarball ----
 log "Compressing backup directory..."
@@ -59,10 +59,9 @@ rm -rf "${backup_dir}/${timestamp}"
 log "Backup complete: ${backup_dir}/${timestamp}.tgz"
 
 # ---- Upload to R2 ----
-log "Uploading to R2..."
-wrangler r2 object put --remote \
-  backup/${timestamp}_postgres_${server_hostname}.tgz \
-  --file "${backup_dir}/${timestamp}.tgz"
+r2_key="backup/${timestamp}_postgres_${server_hostname}.tgz"
+log "Uploading to R2: ${r2_key}"
+wrangler r2 object put --remote "${r2_key}" --file "${backup_dir}/${timestamp}.tgz"
 
 # ---- Retention policy ----
 log "Cleaning local tarballs older than ${retention_days} days..."
@@ -70,6 +69,6 @@ log "Cleaning local tarballs older than ${retention_days} days..."
 find "${backup_dir}" \
   -mindepth 1 -maxdepth 1 -type f -name "*.tgz" \
   -mtime +${retention_days} \
-  -delete
+  -print -delete
 
 log "Backup finished successfully."
