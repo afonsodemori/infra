@@ -1,4 +1,4 @@
 services:
   app:
-    image: ghcr.io/afonsodemori/devcontainers/debian:13
+    image: ghcr.io/afonsodemori/devcontainers/debian:13-20260416-064128
     command: sleep infinity
