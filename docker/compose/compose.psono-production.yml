@@ -25,6 +25,10 @@ services:
       - ${DATA_DIR:?}/psono/assets/48.png:/usr/share/nginx/html/img/icon-48.png
       - ${DATA_DIR:?}/psono/assets/64.png:/usr/share/nginx/html/img/icon-64.png
       - ${DATA_DIR:?}/psono/assets/180-apple.png:/usr/share/nginx/html/img/mstile-150x150.png
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "sed -i 's|<title>Psono</title>|<title>Vault ‹ afonso.dev</title>|g' /usr/share/nginx/html/index.html && exec /bin/sh /root/configs/docker/cmd.sh"
     depends_on:
       - postgres
     restart: unless-stopped
