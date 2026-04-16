@@ -6,12 +6,12 @@ LABEL org.opencontainers.image.licenses=MIT
 USER root
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | sudo tee /etc/apt/sources.list.d/goreleaser.list \
+RUN echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | tee /etc/apt/sources.list.d/goreleaser.list \
   && apt-get update \
   && apt-get install -y goreleaser \
   && apt-get autoremove -y && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
-  && curl -fsSL https://go.dev/dl/go1.26.1.linux-arm64.tar.gz | tar -C /usr/local -xzf -
+  && curl -fsSL "https://go.dev/dl/go1.26.1.linux-$(dpkg --print-architecture).tar.gz" | tar -C /usr/local -xzf -
 
 USER vscode
 ENV GOROOT=/usr/local/go
