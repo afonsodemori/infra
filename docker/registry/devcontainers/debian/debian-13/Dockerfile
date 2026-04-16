@@ -11,8 +11,6 @@ RUN apt-get update \
   lsb-release \
   build-essential \
   shfmt \
-  nodejs \
-  npm \
   vim \
   curl \
   git \
@@ -21,6 +19,16 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 USER vscode
-RUN npm config set prefix ~/.npm-global \
+
+WORKDIR /home/vscode
+
+ENV NVM_DIR=/home/vscode/.nvm
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash \
+  && . $NVM_DIR/nvm.sh \
+  && nvm install 22 \
+  && nvm alias default 22 \
+  # Add nvm and node to login shells (~/.profile) in addition to interactive shells (~/.bashrc)
+  && printf '\nexport NVM_DIR="$HOME/.nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"\n' >> ~/.profile \
   && curl -fsSL https://claude.ai/install.sh | bash \
   && curl -fsSL https://fns-cli.afonso.dev/install.sh | bash
