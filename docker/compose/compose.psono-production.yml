@@ -1,6 +1,6 @@
 services:
   psono-production:
-    image: psono/psono-combo:latest
+    image: psono/psono-combo:${PSONO_TAG:-latest}
     sysctls:
       - net.core.somaxconn=65535
     volumes:

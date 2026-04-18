@@ -12,7 +12,6 @@ services:
       - "443:443"
     depends_on:
       - mycrew-production-api
-      - wgeasy
     restart: always
 
 include:
@@ -22,5 +21,4 @@ include:
   - path: ./docker/compose/compose.mycrew-production.yml
   # Extra tools
   - path: ./docker/compose/compose.certbot.yml
-  - path: ./docker/compose/compose.wgeasy.yml
   - path: ./docker/compose/compose.alloy.yml

@@ -7,7 +7,7 @@ services:
       - pgdata:/var/lib/postgresql
     ports:
       - "127.0.0.1:5432:5432" # host only
-    restart: always
+    restart: unless-stopped
 
 volumes:
   pgdata:

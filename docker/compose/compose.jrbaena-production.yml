@@ -9,4 +9,4 @@ services:
       DB_PASS: ${JRBAENA_PRODUCTION_WEB_DB_PASS:?}
     depends_on:
       - postgres
-    restart: always
+    restart: unless-stopped

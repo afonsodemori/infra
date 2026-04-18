@@ -9,4 +9,4 @@ services:
       DB_PASS: ${METEOSAUCANA_PRODUCTION_WEB_DB_PASS:?}
     depends_on:
       - postgres
-    restart: always
+    restart: unless-stopped
