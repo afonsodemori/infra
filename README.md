@@ -59,21 +59,19 @@ make deploy-default           # Deploy 404 page and health check to nginx
 
 Individual service definitions live in `docker/compose/`:
 
-| File                                          | Description                        |
-| --------------------------------------------- | ---------------------------------- |
-| `compose.database.yml`                        | PostgreSQL (localhost:5432 only)   |
-| `compose.ephemeral-production.yml`            | ephemeral.afonso.dev web app       |
-| `compose.jrbaena-production.yml`              | jrbaena.com web app                |
-| `compose.meteosaucana-production.yml`         | meteosaucana.com web app           |
-| `compose.mycrew-{production,staging,...}.yml` | MyCrew API (multiple environments) |
-| `compose.afonsodev-production.yml`            | afonso.dev web + API               |
-| `compose.fnscli-production.yml`               | fns-cli.afonso.dev documentation   |
-| `compose.psono-production.yml`                | Psono password manager             |
-| `compose.wgeasy.yml`                          | WireGuard Easy VPN                 |
-| `compose.pgadmin.yml`                         | pgAdmin database UI                |
-| `compose.uptime-kuma.yml`                     | Uptime Kuma monitoring             |
-| `compose.alloy.yml`                           | Grafana Alloy log collector        |
-| `compose.certbot.yml`                         | Certbot SSL certificate renewal    |
+| File                                         | Description                        |
+| -------------------------------------------- | ---------------------------------- |
+| `compose.database.yml`                       | PostgreSQL (localhost:5432 only)   |
+| `compose.jrbaena-production.yml`             | jrbaena.com web app                |
+| `compose.meteosaucana-production.yml`        | meteosaucana.com web app           |
+| `compose.mycrew-{production,preview}.yml`    | MyCrew API (multiple environments) |
+| `compose.afonsodev-{production,preview}.yml` | afonso.dev web + API               |
+| `compose.psono.yml`                          | Psono password manager             |
+| `compose.vpn.yml`                            | WireGuard Easy VPN                 |
+| `compose.pgadmin.yml`                        | pgAdmin database UI                |
+| `compose.uptime-kuma.yml`                    | Uptime Kuma monitoring             |
+| `compose.alloy.yml`                          | Grafana Alloy log collector        |
+| `compose.certbot.yml`                        | Certbot SSL certificate renewal    |
 
 To add a new service: create a file in `docker/compose/`, then add an `include:` entry to the relevant top-level compose file(s).
 

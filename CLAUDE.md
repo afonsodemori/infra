@@ -23,9 +23,12 @@ make deploy-default            # Deploy 404 page and health check to nginx conta
 ### Devcontainer Image Builds
 
 ```bash
-make devcontainers/debian-13/build      # Build and push Debian 13 image
-make devcontainers/go-1-26/build        # Build and push Go 1.26 image
-make devcontainers/node-24/build        # Build and push Node.js 24 image
+make devcontainers/debian-13/build        # Build and push Debian 13 image
+make devcontainers/go-1-26/build          # Build and push Go 1.26 image
+make devcontainers/node-24/build          # Build and push Node.js 24 image
+make devcontainers/debian-13/build-local  # Build locally without pushing
+make devcontainers/go-1-26/build-local    # Build locally without pushing
+make devcontainers/node-24/build-local    # Build locally without pushing
 ```
 
 ### Utility Scripts
@@ -52,15 +55,17 @@ Each environment has a top-level compose file that wires everything together:
 | `compose.oci-staging.yml` | Oracle Cloud Staging           |
 | `compose.oci-labs.yml`    | Oracle Cloud Labs              |
 
-These use Docker Compose `include:` to pull in individual service definitions from `docker/compose/`.
+These files define the `nginx` service directly (with its volume mounts for certs, config, and vhosts) and use Docker Compose `include:` to pull in individual service definitions from `docker/compose/`.
 
 ### Service Definitions
 
 Each service lives in its own file under `docker/compose/`:
 
 - `compose.database.yml` — PostgreSQL (host-bound to localhost:5432 only)
-- `compose.{service}-{env}.yml` — Application services (ephemeral, jrbaena, meteosaucana, mycrew-\*, afonsodev, fnscli, psono)
-- `compose.{tool}.yml` — Infrastructure tools (certbot, pgadmin, wgeasy, uptime-kuma, alloy)
+- `compose.{service}-{env}.yml` — Application services (jrbaena, meteosaucana, mycrew-\*, afonsodev, psono)
+- `compose.{tool}.yml` — Infrastructure tools (certbot, pgadmin, vpn, uptime-kuma, alloy)
+
+Some services have companion config subdirectories in `docker/compose/` (e.g., `alloy/`, `certbot/`, `pgadmin/`, `psono/`) for their runtime configuration files.
 
 Adding a new service means creating a file in `docker/compose/` and adding an `include:` entry to the relevant top-level compose file(s).
 
