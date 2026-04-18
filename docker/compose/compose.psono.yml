@@ -1,5 +1,5 @@
 services:
-  psono-production:
+  psono:
     image: psono/psono-combo:${PSONO_TAG:-latest}
     sysctls:
       - net.core.somaxconn=65535

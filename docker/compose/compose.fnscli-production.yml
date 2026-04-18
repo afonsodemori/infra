@@ -1,4 +1,0 @@
-services:
-  fnscli-production-web:
-    image: ghcr.io/afonsodemori/fnscli-web:${FNSCLI_PRODUCTION_WEB_TAG:?}
-    restart: unless-stopped
