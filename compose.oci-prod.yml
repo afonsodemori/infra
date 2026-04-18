@@ -14,7 +14,7 @@ services:
       - afonsodev-production-api
       - jrbaena-production-web
       - meteosaucana-production-web
-      - psono-production
+      - psono
     restart: always
 
 include:
