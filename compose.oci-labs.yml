@@ -12,6 +12,10 @@ services:
       - "[::]:443:443"
     depends_on:
       - uptime-kuma
+      - vpn
+    networks:
+      - default
+      - wg
     restart: always
 
 include:
@@ -19,6 +23,7 @@ include:
   - path: ./docker/compose/compose.database.yml
   # Application services
   - path: ./docker/compose/compose.uptime-kuma.yml
+  - path: ./docker/compose/compose.vpn.yml
   # Extra tools
   - path: ./docker/compose/compose.alloy.yml
   - path: ./docker/compose/compose.certbot.yml
