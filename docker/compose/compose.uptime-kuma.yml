@@ -3,6 +3,7 @@ services:
     image: louislam/uptime-kuma:${KUMA_TAG:-latest}
     volumes:
       - ${DATA_DIR:?}/uptime-kuma:/app/data
+      - ${INFRA_DIR:?}/docker/compose/uptime-kuma/health.json:/app/dist/health.json:ro
     environment:
       - TZ=UTC
       - UMASK=0022
