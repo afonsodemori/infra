@@ -2,37 +2,27 @@
 
 COMPOSE = docker compose -f compose.$(SERVER_HOSTNAME).yml
 
-help:
-	@echo '@TODO'
-
 ####################
 ## docker compose
 ##########
 
-docker/update-images:
+up: update-nginx-assets
+	@$(COMPOSE) up -d --remove-orphans
+
+update-nginx-assets:
+	@bash bin/create-server-health-check.sh
+
+docker/update-images: update-nginx-assets
 	@$(COMPOSE) pull
 	@$(COMPOSE) up -d --remove-orphans
-	@make deploy-default
 
-docker/force-recreate:
+docker/force-recreate: update-nginx-assets
 	@$(COMPOSE) up -d --remove-orphans --force-recreate
-	@make deploy-default
 
-deploy-default:
-	@bin/create-server-health-check.sh
-	@sed "s/{HOSTNAME}/$(SERVER_HOSTNAME)/g" ./docker/nginx/html/404.html > /tmp/404_processed.html
-	@$(COMPOSE) cp /tmp/404_processed.html nginx:/usr/share/nginx/html/404.html
-	@$(COMPOSE) cp /tmp/health.json nginx:/usr/share/nginx/html
-
-nginx-reload:
+nginx-reload: update-nginx-assets
 	@$(COMPOSE) exec nginx nginx -t && \
 	$(COMPOSE) exec nginx nginx -s reload && \
 	echo "Nginx reloaded."
-	@make deploy-default
-
-up:
-	@$(COMPOSE) up -d --remove-orphans
-	@make deploy-default
 
 logs:
 	@$(COMPOSE) logs -f
