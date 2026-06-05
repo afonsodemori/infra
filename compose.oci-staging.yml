@@ -15,6 +15,7 @@ services:
     depends_on:
       - afonsodev-preview-api
       - pgadmin
+      - snippetbox-app
     restart: always
 
 include:
@@ -23,6 +24,7 @@ include:
   # Application services
   - path: ./docker/compose/compose.afonsodev-preview.yml
   - path: ./docker/compose/compose.pgadmin.yml
+  - path: ./docker/compose/compose.snippetbox.yml
   # Extra tools
   - path: ./docker/compose/compose.alloy.yml
   - path: ./docker/compose/compose.certbot.yml

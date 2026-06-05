@@ -1,0 +1,24 @@
+services:
+  snippetbox-app:
+    image: ghcr.io/afonsodemori/snippetbox:${SNIPPETBOX_IMAGE_TAG:?}
+    environment:
+      DSN: ${SNIPPETBOX_DSN:?}
+    restart: unless-stopped
+    depends_on:
+      - snippetbox-db
+
+  # TODO: temporary, for snippetbox-app only. Must be migrated to postgres
+  snippetbox-db:
+    image: mysql:${SNIPPETBOX_MYSQL_VERSION:?}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${SNIPPETBOX_MYSQL_ROOT_PASSWORD:?}
+      MYSQL_USER: ${SNIPPETBOX_MYSQL_USER:?}
+      MYSQL_PASSWORD: ${SNIPPETBOX_MYSQL_PASSWORD:?}
+      MYSQL_DATABASE: ${SNIPPETBOX_MYSQL_DATABASE:?}
+    ports:
+      - "127.0.0.1:3306:3306" # host only
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
