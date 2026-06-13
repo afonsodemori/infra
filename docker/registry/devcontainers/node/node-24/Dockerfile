@@ -9,3 +9,5 @@ RUN . $NVM_DIR/nvm.sh \
   && nvm install 24 \
   && nvm alias default 24 \
   && nvm uninstall 22
+
+  USER root

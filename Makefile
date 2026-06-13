@@ -42,52 +42,55 @@ GOLANG_IMAGE_NAME ?= $(or $(DEVCONTAINERS_GOLANG_IMAGE_NAME), $(IMAGE_NAME))
 NODE_IMAGE_NAME   ?= $(or $(DEVCONTAINERS_NODE_IMAGE_NAME), $(IMAGE_NAME))
 
 devcontainers/debian-13/build:
-	docker buildx build \
+	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/debian/debian-13/Dockerfile \
 		--tag $(DEBIAN_IMAGE_NAME):13-$(TAG_COMMIT) \
 		--tag $(DEBIAN_IMAGE_NAME):13-$(TAG_DATE) \
 		--tag $(DEBIAN_IMAGE_NAME):13 \
 		--tag $(DEBIAN_IMAGE_NAME):latest \
-		--push .
+		--push
 
 devcontainers/debian-13/build-local:
-	docker buildx build \
+	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/debian/debian-13/Dockerfile \
-		--tag $(DEVCONTAINERS_DEBIAN_IMAGE_NAME):local \
-		.
+		--tag $(DEVCONTAINERS_DEBIAN_IMAGE_NAME):local
 
 devcontainers/go-1-26/build:
-	docker buildx build \
+	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/golang/go-1-26/Dockerfile \
 		--tag $(GOLANG_IMAGE_NAME):1.26-$(TAG_COMMIT) \
 		--tag $(GOLANG_IMAGE_NAME):1.26-$(TAG_DATE) \
 		--tag $(GOLANG_IMAGE_NAME):1.26 \
 		--tag $(GOLANG_IMAGE_NAME):latest \
-		--push .
+		--push
 
 devcontainers/go-1-26/build-local:
-	docker buildx build \
+	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/golang/go-1-26/Dockerfile \
-		--tag $(DEVCONTAINERS_GOLANG_IMAGE_NAME):local \
-		.
+		--tag $(DEVCONTAINERS_GOLANG_IMAGE_NAME):local
 
 devcontainers/node-24/build:
-	docker buildx build \
+	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/node/node-24/Dockerfile \
 		--tag $(NODE_IMAGE_NAME):24-$(TAG_COMMIT) \
 		--tag $(NODE_IMAGE_NAME):24-$(TAG_DATE) \
 		--tag $(NODE_IMAGE_NAME):24 \
 		--tag $(NODE_IMAGE_NAME):latest \
-		--push .
+		--push
 
 devcontainers/node-24/build-local:
-	docker buildx build \
+	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/node/node-24/Dockerfile \
-		--tag $(DEVCONTAINERS_NODE_IMAGE_NAME):local \
-		.
+		--tag $(DEVCONTAINERS_NODE_IMAGE_NAME):local
+
+registry/php-85/build-local:
+	docker buildx build . \
+		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
+		--file docker/registry/php/php-85/Dockerfile \
+		--tag $(DEVCONTAINERS_PHP_IMAGE_NAME):local
