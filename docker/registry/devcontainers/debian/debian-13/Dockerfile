@@ -33,5 +33,3 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | b
   && printf '\nexport NVM_DIR="$HOME/.nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"\n' >> ~/.profile \
   && curl -fsSL https://claude.ai/install.sh | bash \
   && curl -fsSL https://fns-cli.afonso.dev/install.sh | bash
-
-USER root
