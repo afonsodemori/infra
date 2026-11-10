@@ -25,7 +25,7 @@ WORKDIR /home/vscode
 ENV NVM_DIR=/home/vscode/.nvm
 ENV CLAUDE_CONFIG_DIR=/home/vscode/.claude
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash \
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash \
   && . $NVM_DIR/nvm.sh \
   && nvm install 22 \
   && nvm alias default 22 \

@@ -11,7 +11,7 @@ RUN echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | tee /etc/apt/s
   && apt-get install -y goreleaser \
   && apt-get autoremove -y && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
-  && curl -fsSL "https://go.dev/dl/go1.26.4.linux-$(dpkg --print-architecture).tar.gz" | tar -C /usr/local -xzf -
+  && curl -fsSL "https://go.dev/dl/go1.26.10.linux-$(dpkg --print-architecture).tar.gz" | tar -C /usr/local -xzf -
 
 USER vscode
 
