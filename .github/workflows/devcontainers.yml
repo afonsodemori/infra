@@ -12,7 +12,7 @@ on:
           - "debian-13 (only)"
           - "debian-13 (downstream)"
           - "node-24"
-          - "go-1-26"
+          - "go-1-27"
 
 permissions:
   contents: read
@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set tags
         id: tags
@@ -58,7 +58,7 @@ jobs:
     if: needs.init.outputs.execute_debian == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/build-devcontainer
         with:
           make_cmd: "devcontainers/debian-13/build"
@@ -90,8 +90,8 @@ jobs:
           tag_date: ${{ needs.init.outputs.tag_date }}
           tag_commit: ${{ needs.init.outputs.tag_commit }}
 
-  go-1-26:
-    name: Build go-1-26
+  go-1-27:
+    name: Build go-1-27
     needs: [init, debian-13]
     if: |
       always() &&
@@ -99,15 +99,15 @@ jobs:
       !contains(needs.*.result, 'failure') &&
       !contains(needs.*.result, 'cancelled') &&
       (
-        github.event.inputs.target == 'go-1-26' ||
+        github.event.inputs.target == 'go-1-27' ||
         (github.event.inputs.target == 'debian-13 (downstream)' && needs.debian-13.result == 'success')
       )
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/build-devcontainer
         with:
-          make_cmd: "devcontainers/go-1-26/build"
+          make_cmd: "devcontainers/go-1-27/build"
           image_name: ${{ vars.DEVCONTAINERS_GOLANG_IMAGE_NAME }}
           image_platforms: ${{ vars.DEVCONTAINERS_IMAGE_PLATFORMS }}
           tag_date: ${{ needs.init.outputs.tag_date }}
