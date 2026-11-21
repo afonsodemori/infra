@@ -117,7 +117,7 @@ Custom base images are defined in `docker/registry/devcontainers/` and published
 | Image       | Base      | Make target                          |
 | ----------- | --------- | ------------------------------------ |
 | `debian-13` | Debian 13 | `make devcontainers/debian-13/build` |
-| `go-1-26`   | debian-13 | `make devcontainers/go-1-26/build`   |
+| `go-1-27`   | debian-13 | `make devcontainers/go-1-27/build`   |
 | `node-24`   | debian-13 | `make devcontainers/node-24/build`   |
 
 The workflow (`.github/workflows/devcontainers.yml`) is manually triggered and supports building individual images or all at once.

@@ -57,20 +57,20 @@ devcontainers/debian-13/build-local:
 		--file docker/registry/devcontainers/debian/debian-13/Dockerfile \
 		--tag $(DEVCONTAINERS_DEBIAN_IMAGE_NAME):local
 
-devcontainers/go-1-26/build:
+devcontainers/go-1-27/build:
 	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
-		--file docker/registry/devcontainers/golang/go-1-26/Dockerfile \
-		--tag $(GOLANG_IMAGE_NAME):1.26-$(TAG_COMMIT) \
-		--tag $(GOLANG_IMAGE_NAME):1.26-$(TAG_DATE) \
-		--tag $(GOLANG_IMAGE_NAME):1.26 \
+		--file docker/registry/devcontainers/golang/go-1-27/Dockerfile \
+		--tag $(GOLANG_IMAGE_NAME):1.27-$(TAG_COMMIT) \
+		--tag $(GOLANG_IMAGE_NAME):1.27-$(TAG_DATE) \
+		--tag $(GOLANG_IMAGE_NAME):1.27 \
 		--tag $(GOLANG_IMAGE_NAME):latest \
 		--push
 
-devcontainers/go-1-26/build-local:
+devcontainers/go-1-27/build-local:
 	docker buildx build . \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
-		--file docker/registry/devcontainers/golang/go-1-26/Dockerfile \
+		--file docker/registry/devcontainers/golang/go-1-27/Dockerfile \
 		--tag $(DEVCONTAINERS_GOLANG_IMAGE_NAME):local
 
 devcontainers/node-24/build:

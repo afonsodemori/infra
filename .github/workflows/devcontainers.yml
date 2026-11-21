@@ -50,7 +50,7 @@ jobs:
           TARGET="${{ github.event.inputs.target }}"
           echo "execute_debian=$([[ "$TARGET" == "debian-13 (only)" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
           echo "execute_node=$([[ "$TARGET" == "node-24" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
-          echo "execute_go=$([[ "$TARGET" == "go-1-26" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
+          echo "execute_go=$([[ "$TARGET" == "go-1-27" || "$TARGET" == "debian-13 (downstream)" ]] && echo "true" || echo "false")" >> $GITHUB_OUTPUT
 
   debian-13:
     name: Build debian-13
