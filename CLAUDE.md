@@ -24,10 +24,10 @@ make deploy-default            # Deploy 404 page and health check to nginx conta
 
 ```bash
 make devcontainers/debian-13/build        # Build and push Debian 13 image
-make devcontainers/go-1-26/build          # Build and push Go 1.26 image
+make devcontainers/go-1-27/build          # Build and push Go 1.26 image
 make devcontainers/node-24/build          # Build and push Node.js 24 image
 make devcontainers/debian-13/build-local  # Build locally without pushing
-make devcontainers/go-1-26/build-local    # Build locally without pushing
+make devcontainers/go-1-27/build-local    # Build locally without pushing
 make devcontainers/node-24/build-local    # Build locally without pushing
 ```
 
@@ -96,7 +96,7 @@ Managed by Certbot via Cloudflare DNS-01 challenge. Cert data is stored in the `
 Custom base images defined in `docker/registry/devcontainers/`:
 
 - `debian/debian-13/` — Base Debian 13 image
-- `golang/go-1-26/` — Go development image (extends debian-13)
+- `golang/go-1-27/` — Go development image (extends debian-13)
 - `node/node-24/` — Node.js development image (extends debian-13)
 
 Built and pushed to `ghcr.io/afonsodemori/devcontainers/` via GitHub Actions (`.github/workflows/devcontainers.yml`). The workflow is manually triggered and supports building individual images or all at once.

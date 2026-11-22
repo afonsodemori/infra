@@ -15,6 +15,10 @@ RUN apt-get update \
   curl \
   git \
   tig \
+  python3 \
+  python3-pip \
+  python3-venv \
+  python-is-python3 \
   && apt-get autoremove -y && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*
 
