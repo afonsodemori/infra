@@ -1,4 +1,13 @@
 services:
   app:
-    image: ghcr.io/afonsodemori/devcontainers/debian:13-20261110-144209
+    image: ghcr.io/afonsodemori/devcontainers/debian:13-20261122-131352
     command: sleep infinity
+    init: true
+    environment:
+      CLAUDE_CONFIG_DIR: /home/vscode/.claude
+    volumes:
+      - ..:/infra
+      - claude-config:/home/vscode/.claude
+
+volumes:
+  claude-config:

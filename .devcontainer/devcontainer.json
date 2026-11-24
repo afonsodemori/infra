@@ -4,20 +4,6 @@
   "service": "app",
   "workspaceFolder": "/infra",
 
-  "mounts": [
-    // cli
-    "source=${localEnv:HOME}/.fns-cli,target=/home/vscode/.fns-cli,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.bash_history,target=/home/vscode/.bash_history,type=bind,consistency=cached",
-    // devtools
-    "source=${localEnv:HOME}/.claude,target=/home/vscode/.claude,type=bind,consistency=cached",
-    // source code
-    "source=${localWorkspaceFolder},target=/infra,type=bind,consistency=cached"
-  ],
-
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:4": { "moby": false }
-  },
-
   "customizations": {
     "vscode": {
       "extensions": [
