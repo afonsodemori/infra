@@ -13,7 +13,7 @@ update-nginx-assets:
 	@bash bin/create-server-health-check.sh
 
 docker/update-images: update-nginx-assets
-	@$(COMPOSE) pull
+	@$(COMPOSE) --profile ondemand pull
 	@$(COMPOSE) up -d --remove-orphans
 
 docker/force-recreate: update-nginx-assets
