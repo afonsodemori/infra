@@ -10,6 +10,7 @@
         "EditorConfig.EditorConfig",
         "esbenp.prettier-vscode",
         "mkhl.shfmt",
+        "redhat.vscode-yaml",
         "eamodio.gitlens",
         "Anthropic.claude-code"
       ]
