@@ -2,24 +2,33 @@
 
 COMPOSE = docker compose -f compose.$(SERVER_HOSTNAME).yml
 
+.PHONY: require-env up update-nginx-assets docker/update-images nginx/preflight \
+	docker/force-recreate nginx-reload nginx/test-and-reload logs down
+
+require-env:
+	@test -n "$(SERVER_HOSTNAME)" || { \
+		echo "SERVER_HOSTNAME is not set. Copy .env.<env>.example to .env"; \
+		exit 1; \
+	}
+
 ####################
 ## docker compose
 ##########
 
 up: update-nginx-assets
 	@$(COMPOSE) up -d --remove-orphans
+	@$(MAKE) --no-print-directory nginx/test-and-reload
 
-update-nginx-assets:
+update-nginx-assets: require-env
 	@bash bin/create-server-health-check.sh
 
 docker/update-images: update-nginx-assets
 	@$(COMPOSE) --profile ondemand pull
 	@$(MAKE) --no-print-directory nginx/preflight
 	@$(COMPOSE) up -d --remove-orphans
+	@$(MAKE) --no-print-directory nginx/test-and-reload
 
-# Start a throwaway nginx from the current image and config (no published ports)
-# and make sure it stays up, so a broken image never replaces the live proxy.
-nginx/preflight:
+nginx/preflight: require-env
 	@cid=$$($(COMPOSE) run -d --no-deps nginx) || exit 1; \
 	sleep 3; \
 	state=$$(docker inspect -f '{{.State.Status}} {{.RestartCount}}' $$cid 2>/dev/null); \
@@ -35,15 +44,17 @@ nginx/preflight:
 docker/force-recreate: update-nginx-assets
 	@$(COMPOSE) up -d --remove-orphans --force-recreate
 
-nginx-reload: update-nginx-assets
+nginx-reload: update-nginx-assets nginx/test-and-reload
+
+nginx/test-and-reload: require-env
 	@$(COMPOSE) exec nginx nginx -t && \
 	$(COMPOSE) exec nginx nginx -s reload && \
 	echo "Nginx reloaded."
 
-logs:
+logs: require-env
 	@$(COMPOSE) logs -f
 
-down:
+down: require-env
 	@$(COMPOSE) down --remove-orphans
 
 ####################

@@ -11,11 +11,11 @@ Infrastructure-as-code repository for managing a multi-service production enviro
 All commands require `SERVER_HOSTNAME` to be set in `.env` (e.g., `oci-prod`, `oci-staging`, `oci-labs`). The Makefile selects `compose.$(SERVER_HOSTNAME).yml` automatically.
 
 ```bash
-make up                        # Generate nginx assets, then start all services
+make up                        # Generate nginx assets, start all services, then test and reload nginx
 make down                      # Stop all services
 make logs                      # Tail logs for all services
 make nginx-reload              # Generate nginx assets, test config, and reload
-make docker/update-images      # Pull latest images (incl. ondemand profile) and restart
+make docker/update-images      # Pull latest images (incl. ondemand profile), restart and reload nginx
 make docker/force-recreate     # Force recreate all containers
 make update-nginx-assets       # Generate health.json and 404.html into $DATA_DIR/nginx/dist
 ```
