@@ -14,7 +14,23 @@ update-nginx-assets:
 
 docker/update-images: update-nginx-assets
 	@$(COMPOSE) --profile ondemand pull
+	@$(MAKE) --no-print-directory nginx/preflight
 	@$(COMPOSE) up -d --remove-orphans
+
+# Start a throwaway nginx from the current image and config (no published ports)
+# and make sure it stays up, so a broken image never replaces the live proxy.
+nginx/preflight:
+	@cid=$$($(COMPOSE) run -d --no-deps nginx) || exit 1; \
+	sleep 3; \
+	state=$$(docker inspect -f '{{.State.Status}} {{.RestartCount}}' $$cid 2>/dev/null); \
+	if [ "$$state" != "running 0" ]; then \
+		echo "nginx preflight FAILED ($$state); live nginx left untouched:"; \
+		docker logs --tail 20 $$cid 2>&1; \
+		docker rm -f $$cid >/dev/null 2>&1; \
+		exit 1; \
+	fi; \
+	docker rm -f $$cid >/dev/null; \
+	echo "nginx preflight OK."
 
 docker/force-recreate: update-nginx-assets
 	@$(COMPOSE) up -d --remove-orphans --force-recreate

@@ -9,6 +9,8 @@ services:
       - ${DATA_DIR:?}/letsencrypt/data:/etc/letsencrypt:ro
       - ${DATA_DIR:?}/nginx/dist/health.json:/usr/share/nginx/html/health.json:ro
       - ${DATA_DIR:?}/nginx/dist/404.html:/usr/share/nginx/html/404.html:ro
+    tmpfs:
+      - /run:mode=1777
     ports:
       - "0.0.0.0:443:443"
       - "[::]:443:443"
