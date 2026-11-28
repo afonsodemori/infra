@@ -88,6 +88,8 @@ Adding a new service means creating a file in `docker/compose/` and adding an `i
 
 To add a new vhost: create in `sites-available/`, symlink in `sites-enabled/` on the server, run `make nginx-reload`.
 
+Proxy to containers via a variable (`set $upstream http://<service>:<port>; proxy_pass $upstream;`), not a literal `proxy_pass http://<service>:<port>;`. With a variable, nginx re-resolves the name at request time through the `resolver` in `nginx.conf` (Docker DNS, `127.0.0.11`), so it doesn't keep stale IPs after a container is recreated or fail to start when an upstream is down. Passing a variable also changes how nginx handles a URI path in `proxy_pass`, so keep upstreams as bare `http://host:port`.
+
 ### SSL Certificates
 
 Managed by Certbot via Cloudflare DNS-01 challenge. Cert data is stored in `$DATA_DIR/letsencrypt/data`, which is mounted read-only into nginx. Renewal runs via cron from the per-server `config/crontab.$SERVER_HOSTNAME`. Each server has its own schedule, and the same crontab also runs a PostgreSQL backup.
