@@ -8,7 +8,6 @@ Service status at: <https://status.afonso.dev>
 
 | Compose file              | Target                         |
 | ------------------------- | ------------------------------ |
-| `compose.ion-vps.yml`     | Ionos VPS (primary production) |
 | `compose.oci-prod.yml`    | Oracle Cloud Production        |
 | `compose.oci-staging.yml` | Oracle Cloud Staging           |
 | `compose.oci-labs.yml`    | Oracle Cloud Labs              |
@@ -18,11 +17,11 @@ Service status at: <https://status.afonso.dev>
 1. Copy the example env file for your target environment:
 
    ```bash
-   cp .env.ion-vps.example .env        # or .env.oci-prod.example, etc.
+   cp .env.oci-prod.example .env       # or .env.oci-staging.example, etc.
    ```
 
 2. Fill in the required values in `.env`. At minimum:
-   - `SERVER_HOSTNAME` — must match one of the environment names above (e.g. `ion-vps`)
+   - `SERVER_HOSTNAME` — must match one of the environment names above (e.g. `oci-prod`)
    - `INFRA_DIR`, `DATA_DIR` — host paths for config and data
    - `NGINX_VERSION` — nginx image tag
    - `DATABASE_POSTGRES_PASSWORD`

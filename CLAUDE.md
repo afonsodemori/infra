@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Infrastructure-as-code repository for managing a multi-service production environment using Docker Compose and Nginx as a reverse proxy. Supports multiple deployment targets (Ionos VPS, Oracle Cloud) with shared service definitions.
+Infrastructure-as-code repository for managing a multi-service production environment using Docker Compose and Nginx as a reverse proxy. Supports multiple deployment targets (Oracle Cloud) with shared service definitions.
 
 ## Common Commands
 
-All commands require `SERVER_HOSTNAME` to be set in `.env` (e.g., `ion-vps`, `oci-prod`, `oci-staging`, `oci-labs`). The Makefile selects `compose.$(SERVER_HOSTNAME).yml` automatically.
+All commands require `SERVER_HOSTNAME` to be set in `.env` (e.g., `oci-prod`, `oci-staging`, `oci-labs`). The Makefile selects `compose.$(SERVER_HOSTNAME).yml` automatically.
 
 ```bash
 make up                        # Start all services + deploy default pages
@@ -50,7 +50,6 @@ Each environment has a top-level compose file that wires everything together:
 
 | File                      | Environment                    |
 | ------------------------- | ------------------------------ |
-| `compose.ion-vps.yml`     | Ionos VPS (primary production) |
 | `compose.oci-prod.yml`    | Oracle Cloud Production        |
 | `compose.oci-staging.yml` | Oracle Cloud Staging           |
 | `compose.oci-labs.yml`    | Oracle Cloud Labs              |
@@ -103,7 +102,7 @@ Built and pushed to `ghcr.io/afonsodemori/devcontainers/` via GitHub Actions (`.
 
 ### Environment Variables
 
-Copy `.env.ion-vps.example` (or the relevant `.env.{provider}.example`) to `.env` and fill in values. Key variables:
+Copy the relevant `.env.{environment}.example` (e.g. `.env.oci-prod.example`) to `.env` and fill in values. Key variables:
 
 - `SERVER_HOSTNAME` — Controls which top-level compose file `make` uses
 - `INFRA_DIR`, `DATA_DIR` — Host path configuration

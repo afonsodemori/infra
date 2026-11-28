@@ -3,7 +3,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.autoSave": "onFocusChange",
   "files.associations": {
-    ".env.ion-vps.example": "dotenv",
     ".env.oci-labs.example": "dotenv",
     ".env.oci-prod.example": "dotenv",
     ".env.oci-staging.example": "dotenv"
