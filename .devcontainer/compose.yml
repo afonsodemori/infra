@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/afonsodemori/devcontainers/debian:13-20261122-131352
+    image: ghcr.io/afonsodemori/devcontainers/debian:13-20261128-094545
     command: sleep infinity
     init: true
     volumes:
