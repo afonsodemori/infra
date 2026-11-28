@@ -5,7 +5,9 @@ services:
       DSN: ${SNIPPETBOX_DSN:?}
     restart: unless-stopped
     depends_on:
-      - snippetbox-db
+      snippetbox-db:
+        condition: service_healthy
+        restart: true
 
   # TODO: temporary, for snippetbox-app only. Must be migrated to postgres
   snippetbox-db:
@@ -19,6 +21,13 @@ services:
       - "127.0.0.1:3306:3306" # host only
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
 
 volumes:
   mysql-data:
