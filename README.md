@@ -122,6 +122,8 @@ Custom base images are defined in `docker/registry/devcontainers/` and published
 
 The workflow (`.github/workflows/devcontainers.yml`) is manually triggered and supports building individual images or all at once.
 
+See [`docker/registry/devcontainers/README.md`](docker/registry/devcontainers/README.md) for usage, including the optional volumes for persisting shell history and Claude Code config.
+
 ## License
 
 [MIT](LICENSE)
