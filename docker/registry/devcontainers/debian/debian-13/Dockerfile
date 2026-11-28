@@ -7,6 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
+  && apt-get upgrade -y \
   && apt-get install -y --no-install-recommends \
   build-essential \
   shfmt \
@@ -41,8 +42,8 @@ RUN mkdir -p "$CLAUDE_CONFIG_DIR"
 
 RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh | bash \
   && . "$NVM_DIR/nvm.sh" \
-  && nvm install 22 \
-  && nvm alias default 22 \
+  && nvm install 24 \
+  && nvm alias default 24 \
   # Add nvm to login shells (~/.profile) in addition to interactive shells (~/.bashrc)
   && printf '\nexport NVM_DIR="$HOME/.nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && \\. "$NVM_DIR/nvm.sh"\n' >> ~/.profile \
   && curl -fsSL https://claude.ai/install.sh | bash

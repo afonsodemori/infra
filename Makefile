@@ -70,6 +70,8 @@ NODE_IMAGE_NAME   ?= $(or $(DEVCONTAINERS_NODE_IMAGE_NAME), $(IMAGE_NAME))
 
 devcontainers/debian-13/build:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/debian/debian-13/Dockerfile \
 		--tag $(DEBIAN_IMAGE_NAME):13-$(TAG_COMMIT) \
@@ -80,12 +82,16 @@ devcontainers/debian-13/build:
 
 devcontainers/debian-13/build-local:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/debian/debian-13/Dockerfile \
 		--tag $(DEVCONTAINERS_DEBIAN_IMAGE_NAME):local
 
 devcontainers/go-1-27/build:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/golang/go-1-27/Dockerfile \
 		--tag $(GOLANG_IMAGE_NAME):1.27-$(TAG_COMMIT) \
@@ -96,12 +102,16 @@ devcontainers/go-1-27/build:
 
 devcontainers/go-1-27/build-local:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/golang/go-1-27/Dockerfile \
 		--tag $(DEVCONTAINERS_GOLANG_IMAGE_NAME):local
 
 devcontainers/node-24/build:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/node/node-24/Dockerfile \
 		--tag $(NODE_IMAGE_NAME):24-$(TAG_COMMIT) \
@@ -112,12 +122,16 @@ devcontainers/node-24/build:
 
 devcontainers/node-24/build-local:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/devcontainers/node/node-24/Dockerfile \
 		--tag $(DEVCONTAINERS_NODE_IMAGE_NAME):local
 
 registry/php-85/build-local:
 	docker buildx build . \
+		--pull \
+		--no-cache \
 		--platform $(DEVCONTAINERS_IMAGE_PLATFORMS) \
 		--file docker/registry/php/php-85/Dockerfile \
 		--tag $(DEVCONTAINERS_PHP_IMAGE_NAME):local
