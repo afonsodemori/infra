@@ -30,5 +30,4 @@ include:
   - path: ./docker/compose/compose.meteosaucana-production.yml
   - path: ./docker/compose/compose.psono.yml
   # Extra tools
-  - path: ./docker/compose/compose.alloy.yml
   - path: ./docker/compose/compose.certbot.yml
