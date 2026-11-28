@@ -45,5 +45,4 @@ RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.41.0/install.sh |
   && nvm alias default 22 \
   # Add nvm to login shells (~/.profile) in addition to interactive shells (~/.bashrc)
   && printf '\nexport NVM_DIR="$HOME/.nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && \\. "$NVM_DIR/nvm.sh"\n' >> ~/.profile \
-  && curl -fsSL https://claude.ai/install.sh | bash \
-  && curl -fsSL https://fns-cli.afonso.dev/install.sh | bash
+  && curl -fsSL https://claude.ai/install.sh | bash
