@@ -11,20 +11,20 @@ Infrastructure-as-code repository for managing a multi-service production enviro
 All commands require `SERVER_HOSTNAME` to be set in `.env` (e.g., `oci-prod`, `oci-staging`, `oci-labs`). The Makefile selects `compose.$(SERVER_HOSTNAME).yml` automatically.
 
 ```bash
-make up                        # Start all services + deploy default pages
+make up                        # Generate nginx assets, then start all services
 make down                      # Stop all services
 make logs                      # Tail logs for all services
-make nginx-reload              # Test nginx config, reload, and deploy default pages
-make docker/update-images      # Pull latest images and restart
+make nginx-reload              # Generate nginx assets, test config, and reload
+make docker/update-images      # Pull latest images (incl. ondemand profile) and restart
 make docker/force-recreate     # Force recreate all containers
-make deploy-default            # Deploy 404 page and health check to nginx container
+make update-nginx-assets       # Generate health.json and 404.html into $DATA_DIR/nginx/dist
 ```
 
 ### Devcontainer Image Builds
 
 ```bash
 make devcontainers/debian-13/build        # Build and push Debian 13 image
-make devcontainers/go-1-27/build          # Build and push Go 1.26 image
+make devcontainers/go-1-27/build          # Build and push Go 1.27 image
 make devcontainers/node-24/build          # Build and push Node.js 24 image
 make devcontainers/debian-13/build-local  # Build locally without pushing
 make devcontainers/go-1-27/build-local    # Build locally without pushing
@@ -34,12 +34,13 @@ make devcontainers/node-24/build-local    # Build locally without pushing
 ### Utility Scripts
 
 ```bash
-bin/backup-pg-export.sh        # Export PostgreSQL backup
-bin/backup-pg-import.sh        # Import PostgreSQL backup
-bin/certbot.sh                 # SSL certificate operations
-bin/install-crontab.sh         # Install crontab from config/crontab
-bin/install-data-dirs.sh       # Create required data directories
-bin/install-packages.sh        # Install host packages
+bin/postgres-backup.sh                # Back up PostgreSQL into $PG_BACKUP_BACKUP_DIR/<timestamp>
+bin/postgres-restore.sh <timestamp>   # Restore a PostgreSQL backup
+bin/certbot.sh <cmd>                  # Run certbot (new/renew/revoke/delete reload nginx)
+bin/create-server-health-check.sh     # Generate nginx assets (used by make update-nginx-assets)
+bin/crontab-install.sh                # Install crontab from config/crontab.$SERVER_HOSTNAME
+bin/install-data-dirs.sh              # Create required data directories
+bin/install-packages.sh               # Install host packages
 ```
 
 ## Architecture
@@ -48,23 +49,28 @@ bin/install-packages.sh        # Install host packages
 
 Each environment has a top-level compose file that wires everything together:
 
-| File                      | Environment                    |
-| ------------------------- | ------------------------------ |
-| `compose.oci-prod.yml`    | Oracle Cloud Production        |
-| `compose.oci-staging.yml` | Oracle Cloud Staging           |
-| `compose.oci-labs.yml`    | Oracle Cloud Labs              |
+| File                      | Environment             | Included services                                          |
+| ------------------------- | ----------------------- | ---------------------------------------------------------- |
+| `compose.oci-prod.yml`    | Oracle Cloud Production | afonsodev-production, jrbaena, meteosaucana, psono         |
+| `compose.oci-staging.yml` | Oracle Cloud Staging    | afonsodev-preview, pgadmin, snippetbox                     |
+| `compose.oci-labs.yml`    | Oracle Cloud Labs       | uptime-kuma, vpn                                           |
 
-These files define the `nginx` service directly (with its volume mounts for certs, config, and vhosts) and use Docker Compose `include:` to pull in individual service definitions from `docker/compose/`.
+Every environment also includes `database`, `alloy` and `certbot`.
+
+These files define the `nginx` service directly (with its volume mounts for certs, config, vhosts and generated assets) and use Docker Compose `include:` to pull in individual service definitions from `docker/compose/`.
 
 ### Service Definitions
 
 Each service lives in its own file under `docker/compose/`:
 
 - `compose.database.yml` — PostgreSQL (host-bound to localhost:5432 only)
-- `compose.{service}-{env}.yml` — Application services (jrbaena, meteosaucana, mycrew-\*, afonsodev, psono)
-- `compose.{tool}.yml` — Infrastructure tools (certbot, pgadmin, vpn, uptime-kuma, alloy)
+- `compose.{service}-{env}.yml` — Application services (afonsodev, jrbaena, meteosaucana, mycrew). The mycrew files exist but are not currently included by any environment.
+- `compose.snippetbox.yml` — Snippetbox app plus a temporary MySQL container (localhost:3306), pending migration to PostgreSQL
+- `compose.{tool}.yml` — Tools (psono, certbot, pgadmin, vpn, uptime-kuma, alloy)
 
-Some services have companion config subdirectories in `docker/compose/` (e.g., `alloy/`, `certbot/`, `pgadmin/`, `psono/`) for their runtime configuration files.
+Some services have companion config subdirectories in `docker/compose/` (`alloy/`, `certbot/`, `pgadmin/`, `psono/`, `uptime-kuma/`) for their runtime configuration files.
+
+Certbot uses the `ondemand` profile, so `make up` does not start it. It runs through `bin/certbot.sh`.
 
 Adding a new service means creating a file in `docker/compose/` and adding an `include:` entry to the relevant top-level compose file(s).
 
@@ -74,21 +80,23 @@ Adding a new service means creating a file in `docker/compose/` and adding an `i
 
 - `nginx.conf` — Main config
 - `sites-available/` — One `.conf` per vhost/application
-- `sites-enabled/` — Symlinks to enabled sites (mounted as `conf.d`)
+- `sites-enabled/` — Symlinks to enabled sites (mounted as `conf.d`). Git ignores its contents, so each server keeps its own symlinks.
 - `snippets/security.conf`, `proxy.conf`, `ssl-common.conf` — Reusable includes
-- `html/` — Static files served by nginx (404 page, health check JSON)
+- `html/404.html` — 404 template (`{HOSTNAME}` placeholder)
 
-To add a new vhost: create in `sites-available/`, symlink in `sites-enabled/`, run `make nginx-reload`.
+`make update-nginx-assets` renders `404.html` and generates `health.json` into `$DATA_DIR/nginx/dist/`, which is mounted into the nginx container.
+
+To add a new vhost: create in `sites-available/`, symlink in `sites-enabled/` on the server, run `make nginx-reload`.
 
 ### SSL Certificates
 
-Managed by Certbot via Cloudflare DNS-01 challenge. Cert data is stored in the `certbot-data` Docker volume, mounted read-only into nginx. Renewal runs every Wednesday at 04:37 via cron (`config/crontab`).
+Managed by Certbot via Cloudflare DNS-01 challenge. Cert data is stored in `$DATA_DIR/letsencrypt/data`, which is mounted read-only into nginx. Renewal runs via cron from the per-server `config/crontab.$SERVER_HOSTNAME`. Each server has its own schedule, and the same crontab also runs a PostgreSQL backup.
 
 ### Observability
 
 - **Grafana Alloy** — Collects and ships logs to a Loki endpoint
 - **Uptime Kuma** — Service uptime monitoring
-- **Health checks** — `/health.json` served by nginx for each service
+- **Health checks** — `/health.json` served by nginx per server. pgadmin, psono and uptime-kuma also have their own `health.json`.
 
 ### Devcontainer Images
 
@@ -104,9 +112,10 @@ Built and pushed to `ghcr.io/afonsodemori/devcontainers/` via GitHub Actions (`.
 
 Copy the relevant `.env.{environment}.example` (e.g. `.env.oci-prod.example`) to `.env` and fill in values. Key variables:
 
-- `SERVER_HOSTNAME` — Controls which top-level compose file `make` uses
+- `SERVER_HOSTNAME` — Controls which top-level compose file and crontab are used
 - `INFRA_DIR`, `DATA_DIR` — Host path configuration
 - `NGINX_VERSION` — Nginx container image tag
-- `CERTBOT_CLOUDFLARE_API_TOKEN` — For DNS-01 certificate renewal
-- `DATABASE_POSTGRES_PASSWORD` — Shared database password
+- `CERTBOT_*` — Cloudflare API token, email and propagation delay for DNS-01 renewal
+- `DATABASE_POSTGRES_PASSWORD`, `DATABASE_POSTGRES_VERSION` — Shared database
+- `PG_BACKUP_*` — Backup directory, retention days and compose service for `bin/postgres-backup.sh`
 - `ALLOY_GRAFANA_*` — Grafana Cloud credentials for log shipping
